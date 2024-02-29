@@ -16,7 +16,7 @@ namespace StylizedWater2
 #if URP
         public static List<PlanarReflectionRenderer> Instances = new List<PlanarReflectionRenderer>();
         public Dictionary<Camera, Camera> reflectionCameras = new Dictionary<Camera, Camera>();
-        
+
         //Rendering
         [Tooltip("Set the layers that should be rendered into the reflection. The \"Water\" layer is always excluded")]
         public LayerMask cullingMask = -1;
@@ -31,15 +31,15 @@ namespace StylizedWater2
         //Quality
         public bool renderShadows;
         [Tooltip("Objects beyond this range aren't rendered into the reflection. Note that this may causes popping for large/tall objects.")]
-		public float renderRange = 500f;
-        [Range(0.25f, 1f)] 
+        public float renderRange = 500f;
+        [Range(0.25f, 1f)]
         [Tooltip("A multiplier for the rendering resolution, based on the current screen resolution")]
-		public float renderScale = 0.75f;
+        public float renderScale = 0.75f;
 
         [Range(0, 4)]
         [Tooltip("Do not render LOD objects lower than this value. Example: With a value of 1, LOD0 for LOD Groups will not be used")]
         public int maximumLODLevel = 0;
-        
+
         [SerializeField]
         public List<WaterObject> waterObjects = new List<WaterObject>();
         [HideInInspector]
@@ -55,7 +55,7 @@ namespace StylizedWater2
         public static bool AllowReflections { get { return m_allowReflections; } }
         private static int _PlanarReflectionsEnabledID = Shader.PropertyToID("_PlanarReflectionsEnabled");
         private static int _PlanarReflectionLeftID = Shader.PropertyToID("_PlanarReflectionLeft");
-		private static UniversalAdditionalCameraData cameraData;
+        private static UniversalAdditionalCameraData cameraData;
         [NonSerialized]
         public bool isRendering;
 
@@ -63,7 +63,7 @@ namespace StylizedWater2
         {
             this.gameObject.name = "Planar Reflection Renderer";
         }
-        
+
         private void OnEnable()
         {
             InitializeValues();
@@ -103,7 +103,7 @@ namespace StylizedWater2
         public static void SetQuality(bool enableReflections, float renderScale = -1f, float renderRange = -1f, int maxLodLevel = -1)
         {
             m_allowReflections = enableReflections;
-            
+
             foreach (PlanarReflectionRenderer renderer in Instances)
             {
                 if (renderScale > 0) renderer.renderScale = renderScale;
@@ -153,21 +153,21 @@ namespace StylizedWater2
         public Bounds CalculateBounds()
         {
             Bounds m_bounds = new Bounds(Vector3.zero, Vector3.zero);
-            
+
             if (waterObjects == null) return m_bounds;
             if (waterObjects.Count == 0) return m_bounds;
 
             Vector3 minSum = Vector3.one * Mathf.Infinity;
             Vector3 maxSum = Vector3.one * Mathf.NegativeInfinity;
-            
+
             for (int i = 0; i < waterObjects.Count; i++)
             {
                 if (!waterObjects[i]) continue;
-                    
+
                 minSum = Vector3.Min(waterObjects[i].meshRenderer.bounds.min, minSum);
                 maxSum = Vector3.Max(waterObjects[i].meshRenderer.bounds.max, maxSum);
             }
-            
+
             m_bounds.SetMinMax(minSum, maxSum);
 
             //Flatten to center
@@ -192,7 +192,7 @@ namespace StylizedWater2
                                                               camera.hideFlags != HideFlags.None)) return;
 
             isRendering = IsVisible(camera);
-            
+
             //Note: Scene camera still rendering even if window not focused!
             if (isRendering == false) return;
 
@@ -201,7 +201,7 @@ namespace StylizedWater2
 
             reflectionCameras.TryGetValue(camera, out reflectionCamera);
             if (reflectionCamera == null) CreateReflectionCamera(camera);
-            
+
             //It's possible it is destroyed at this point when disabling reflections
             if (!reflectionCamera) return;
 
@@ -209,17 +209,17 @@ namespace StylizedWater2
             {
                 RenderTexture.ReleaseTemporary(reflectionCamera.targetTexture);
                 CreateRenderTexture(reflectionCamera, camera);
-                
+
                 m_renderScale = renderScale;
             }
-            
+
             UpdateWaterProperties(reflectionCamera);
-   
+
 #if UNITY_EDITOR
             //Screen pos outside of frustrum
             if (camera.orthographic && Vector3.Dot(Vector3.up, camera.transform.up) > 0.9999f) return;
 #endif
-            
+
             UpdatePerspective(camera, reflectionCamera);
 
             bool fogEnabled = RenderSettings.fog;
@@ -230,7 +230,7 @@ namespace StylizedWater2
             GL.invertCulling = true;
 
             UniversalRenderPipeline.RenderSingleCamera(context, reflectionCamera);
-            
+
             if (fogEnabled) RenderSettings.fog = true;
             QualitySettings.maximumLODLevel = maxLODLevel;
             GL.invertCulling = false;
@@ -256,7 +256,7 @@ namespace StylizedWater2
             foreach (var kvp in reflectionCameras)
             {
                 if (kvp.Value == null) continue;
-                
+
                 cameraData = kvp.Value.GetComponent<UniversalAdditionalCameraData>();
                 cameraData.SetRenderer(index);
             }
@@ -267,12 +267,12 @@ namespace StylizedWater2
             foreach (var kvp in reflectionCameras)
             {
                 if (kvp.Value == null) continue;
-                
+
                 cameraData = kvp.Value.GetComponent<UniversalAdditionalCameraData>();
                 cameraData.renderShadows = state;
             }
         }
-        
+
         /// <summary>
         /// Add the WaterObject, and recalculates the rendering bounds.
         /// </summary>
@@ -284,7 +284,7 @@ namespace StylizedWater2
 
             RecalculateBounds();
         }
-        
+
         /// <summary>
         /// Remove the WaterObject, and recalculates the rendering bounds.
         /// </summary>
@@ -293,10 +293,10 @@ namespace StylizedWater2
         {
             ToggleMaterialReflectionSampling(waterObject, false);
             waterObjects.Remove(waterObject);
-            
+
             RecalculateBounds();
         }
-        
+
         /// <summary>
         /// Enables planar reflections on the MeshRenderers of the assigned water objects
         /// </summary>
@@ -304,7 +304,7 @@ namespace StylizedWater2
         {
             ToggleMaterialReflectionSampling(m_allowReflections);
         }
-        
+
         /// <summary>
         /// Toggles the sampling of the planar reflections texture in the water shader.
         /// </summary>
@@ -316,7 +316,7 @@ namespace StylizedWater2
             for (int i = 0; i < waterObjects.Count; i++)
             {
                 if (waterObjects[i] == null) continue;
-                
+
                 ToggleMaterialReflectionSampling(waterObjects[i], state);
             }
         }
@@ -336,13 +336,13 @@ namespace StylizedWater2
             newCamera.hideFlags = HideFlags.DontSave;
             //For the scene-view camera this also copies unwanted properties. Such as the camera type and background color!
             newCamera.CopyFrom(source);
-            
+
             //Always exclude water layer
             newCamera.cullingMask = ~(1 << 4) & cullingMask;
             //Must always be set to Game, otherwise shadows render anyway
             newCamera.cameraType = CameraType.Game;
-            newCamera.depth = source.depth-1f;
-            newCamera.rect = new Rect(0,0,1,1);
+            newCamera.depth = source.depth - 1f;
+            newCamera.rect = new Rect(0, 0, 1, 1);
             newCamera.enabled = false;
             newCamera.clearFlags = includeSkybox ? CameraClearFlags.Skybox : CameraClearFlags.Depth;
             //Required to maintain the alpha channel for the scene view
@@ -358,7 +358,7 @@ namespace StylizedWater2
             data.SetRenderer(rendererIndex);
 
             CreateRenderTexture(newCamera, source);
-            
+
             reflectionCameras[source] = newCamera;
         }
 
@@ -367,14 +367,14 @@ namespace StylizedWater2
             RenderTextureFormat colorFormat = UniversalRenderPipeline.asset.supportsHDR && SystemInfo.SupportsRenderTextureFormat(RenderTextureFormat.DefaultHDR) ? RenderTextureFormat.DefaultHDR : RenderTextureFormat.Default;
 
             float scale = GetRenderScale();
-            
+
             targetCamera.targetTexture = RenderTexture.GetTemporary(
                 Mathf.RoundToInt(source.scaledPixelWidth * scale),
                 Mathf.RoundToInt(source.scaledPixelHeight * scale), 16, colorFormat);
         }
-        
+
         private static readonly Plane[] frustrumPlanes = new Plane[6];
-        
+
         private bool IsVisible(Camera targetCamera)
         {
             GeometryUtility.CalculateFrustumPlanes(targetCamera.projectionMatrix * targetCamera.worldToCameraMatrix, frustrumPlanes);
@@ -388,7 +388,7 @@ namespace StylizedWater2
             for (int i = 0; i < waterObjects.Count; i++)
             {
                 if (waterObjects[i] == null) continue;
-                
+
                 waterObjects[i].props.SetTexture(_PlanarReflectionLeftID, cam.targetTexture);
                 waterObjects[i].ApplyInstancedProperties();
             }
@@ -403,11 +403,11 @@ namespace StylizedWater2
         private static Matrix4x4 projectionMatrix;
         private static Vector4 clipPlane;
         private static readonly float[] layerCullDistances = new float[32];
-        
+
         private void UpdatePerspective(Camera source, Camera reflectionCam)
         {
             if (!source || !reflectionCam) return;
-            
+
             Vector3 position = bounds.center + (Vector3.up * offset);
 
             var d = -Vector3.Dot(Vector3.up, position);
@@ -431,16 +431,16 @@ namespace StylizedWater2
             clipPlane = CameraSpacePlane(reflectionCam.worldToCameraMatrix, position - Vector3.up * 0.1f,
                 Vector3.up, 1.0f);
             projectionMatrix = source.CalculateObliqueMatrix(clipPlane);
-            
+
             //Settings
-            reflectionCam.cullingMask = ~(1 << 4) & cullingMask;;
+            reflectionCam.cullingMask = ~(1 << 4) & cullingMask; ;
             reflectionCamera.clearFlags = includeSkybox ? CameraClearFlags.Skybox : CameraClearFlags.Depth;
-            
+
             //Only re-apply on value change
             if (m_renderRange != renderRange)
             {
                 m_renderRange = renderRange;
-                
+
                 for (int i = 0; i < layerCullDistances.Length; i++)
                 {
                     layerCullDistances[i] = renderRange;
@@ -476,7 +476,7 @@ namespace StylizedWater2
             reflectionMat.m32 = 0F;
             reflectionMat.m33 = 1F;
         }
-        
+
         // Given position/normal of the plane, calculates plane in camera space.
         private Vector4 CameraSpacePlane(Matrix4x4 worldToCameraMatrix, Vector3 pos, Vector3 normal, float sideSign)
         {

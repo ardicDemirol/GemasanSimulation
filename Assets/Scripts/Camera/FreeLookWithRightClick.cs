@@ -12,15 +12,14 @@ public class FreeLookWithRightClick : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButton(1))
         {
             EnableFreeLook(true);
         }
-        else if (Input.GetMouseButtonUp(1))
+        else
         {
             EnableFreeLook(false);
         }
-
     }
 
     private void EnableFreeLook(bool enable)
