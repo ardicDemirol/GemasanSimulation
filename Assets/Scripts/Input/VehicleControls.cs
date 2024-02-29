@@ -178,7 +178,29 @@ public partial class @VehicleControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""1842b44f-dfa5-4fae-ad8a-3bbc023019d0"",
-                    ""path"": ""<Keyboard>/1"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Camera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2af5f227-8a8d-49dc-9470-fed27042ce45"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Camera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0a0c4339-650e-46ac-85a5-57b2bdcef898"",
+                    ""path"": ""<Keyboard>/4"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -190,31 +212,49 @@ public partial class @VehicleControls: IInputActionCollection2, IDisposable
         },
         {
             ""name"": ""Vehicle1"",
-            ""id"": ""0e3ab394-0354-44f7-8839-f61819f5ea3c"",
+            ""id"": ""d78fa31d-c74e-40c5-83cb-12724746f7a9"",
             ""actions"": [
                 {
                     ""name"": ""Movement"",
                     ""type"": ""Value"",
-                    ""id"": ""9c4c5cef-deb5-4cf0-8eca-55bfa21dcdd0"",
+                    ""id"": ""f1ffd66a-17c7-4989-9e84-51cdef5dc8a0"",
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Movement1"",
+                    ""name"": ""Height"",
                     ""type"": ""Value"",
-                    ""id"": ""cbcd3cc2-6238-4264-8611-de5160ae876c"",
+                    ""id"": ""13e245cc-1f61-4283-962f-348e010c7321"",
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Look"",
+                    ""type"": ""Value"",
+                    ""id"": ""d6be9170-e492-4764-8fc5-24f037738c68"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Camera"",
+                    ""type"": ""Button"",
+                    ""id"": ""113cffc3-7143-4893-8341-cdb370a36e1e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
                 {
                     ""name"": ""WASD"",
-                    ""id"": ""38940b16-09d6-421d-ada4-24bb145cd252"",
+                    ""id"": ""ec9f7389-b6dc-43e1-be2c-762dba80b181"",
                     ""path"": ""2DVector"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -225,7 +265,7 @@ public partial class @VehicleControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""up"",
-                    ""id"": ""ab7e3473-7e9c-40e3-8bb3-62e4dfea421a"",
+                    ""id"": ""3d6b321b-5e62-4612-94ef-cb1676bd8f20"",
                     ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -236,7 +276,7 @@ public partial class @VehicleControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""down"",
-                    ""id"": ""c27927f1-7da7-474e-baa1-e5ffa7d8d5db"",
+                    ""id"": ""fbf6c85e-6d59-4318-99d7-5fd4b727c987"",
                     ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -247,7 +287,7 @@ public partial class @VehicleControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""left"",
-                    ""id"": ""b73ea21f-bf92-4435-9996-bd1499ca37d0"",
+                    ""id"": ""311930d8-6bca-4613-a711-d3080808573e"",
                     ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -258,7 +298,7 @@ public partial class @VehicleControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""right"",
-                    ""id"": ""4a0cad84-85d9-497a-9f93-8dc96f186987"",
+                    ""id"": ""2d70039b-e88c-4730-a2c6-5861412d06d1"",
                     ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -268,37 +308,70 @@ public partial class @VehicleControls: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""QE"",
-                    ""id"": ""14a43478-1fe0-4618-9b97-c7b52809e40b"",
-                    ""path"": ""OneModifier"",
+                    ""name"": """",
+                    ""id"": ""260dc88a-d3c5-4dab-815d-126efefd11f7"",
+                    ""path"": ""<Pointer>/delta"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Movement1"",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""QE"",
+                    ""id"": ""5684851d-6130-4430-a275-a91823c30b04"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Height"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""Modifier"",
-                    ""id"": ""29c55acd-5c5c-473f-b6b8-b2df74b32879"",
+                    ""name"": ""down"",
+                    ""id"": ""ff64ef2a-df71-4fdf-abd6-69f1962bf3a8"",
                     ""path"": ""<Keyboard>/q"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Movement1"",
+                    ""action"": ""Height"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""Binding"",
-                    ""id"": ""08116951-0b9e-4c41-b258-918e46215a27"",
+                    ""name"": ""up"",
+                    ""id"": ""ad6e2d1d-f3b7-44f4-acb3-c3ec1617f47a"",
                     ""path"": ""<Keyboard>/e"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Movement1"",
+                    ""action"": ""Height"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b7ab5c66-b513-4dc3-8e11-624f11a4d8d1"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Camera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b2ba23c0-75f7-4f0b-bc65-e824660e9821"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Camera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -320,7 +393,9 @@ public partial class @VehicleControls: IInputActionCollection2, IDisposable
         // Vehicle1
         m_Vehicle1 = asset.FindActionMap("Vehicle1", throwIfNotFound: true);
         m_Vehicle1_Movement = m_Vehicle1.FindAction("Movement", throwIfNotFound: true);
-        m_Vehicle1_Movement1 = m_Vehicle1.FindAction("Movement1", throwIfNotFound: true);
+        m_Vehicle1_Height = m_Vehicle1.FindAction("Height", throwIfNotFound: true);
+        m_Vehicle1_Look = m_Vehicle1.FindAction("Look", throwIfNotFound: true);
+        m_Vehicle1_Camera = m_Vehicle1.FindAction("Camera", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -453,13 +528,17 @@ public partial class @VehicleControls: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Vehicle1;
     private List<IVehicle1Actions> m_Vehicle1ActionsCallbackInterfaces = new List<IVehicle1Actions>();
     private readonly InputAction m_Vehicle1_Movement;
-    private readonly InputAction m_Vehicle1_Movement1;
+    private readonly InputAction m_Vehicle1_Height;
+    private readonly InputAction m_Vehicle1_Look;
+    private readonly InputAction m_Vehicle1_Camera;
     public struct Vehicle1Actions
     {
         private @VehicleControls m_Wrapper;
         public Vehicle1Actions(@VehicleControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_Vehicle1_Movement;
-        public InputAction @Movement1 => m_Wrapper.m_Vehicle1_Movement1;
+        public InputAction @Height => m_Wrapper.m_Vehicle1_Height;
+        public InputAction @Look => m_Wrapper.m_Vehicle1_Look;
+        public InputAction @Camera => m_Wrapper.m_Vehicle1_Camera;
         public InputActionMap Get() { return m_Wrapper.m_Vehicle1; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -472,9 +551,15 @@ public partial class @VehicleControls: IInputActionCollection2, IDisposable
             @Movement.started += instance.OnMovement;
             @Movement.performed += instance.OnMovement;
             @Movement.canceled += instance.OnMovement;
-            @Movement1.started += instance.OnMovement1;
-            @Movement1.performed += instance.OnMovement1;
-            @Movement1.canceled += instance.OnMovement1;
+            @Height.started += instance.OnHeight;
+            @Height.performed += instance.OnHeight;
+            @Height.canceled += instance.OnHeight;
+            @Look.started += instance.OnLook;
+            @Look.performed += instance.OnLook;
+            @Look.canceled += instance.OnLook;
+            @Camera.started += instance.OnCamera;
+            @Camera.performed += instance.OnCamera;
+            @Camera.canceled += instance.OnCamera;
         }
 
         private void UnregisterCallbacks(IVehicle1Actions instance)
@@ -482,9 +567,15 @@ public partial class @VehicleControls: IInputActionCollection2, IDisposable
             @Movement.started -= instance.OnMovement;
             @Movement.performed -= instance.OnMovement;
             @Movement.canceled -= instance.OnMovement;
-            @Movement1.started -= instance.OnMovement1;
-            @Movement1.performed -= instance.OnMovement1;
-            @Movement1.canceled -= instance.OnMovement1;
+            @Height.started -= instance.OnHeight;
+            @Height.performed -= instance.OnHeight;
+            @Height.canceled -= instance.OnHeight;
+            @Look.started -= instance.OnLook;
+            @Look.performed -= instance.OnLook;
+            @Look.canceled -= instance.OnLook;
+            @Camera.started -= instance.OnCamera;
+            @Camera.performed -= instance.OnCamera;
+            @Camera.canceled -= instance.OnCamera;
         }
 
         public void RemoveCallbacks(IVehicle1Actions instance)
@@ -521,6 +612,8 @@ public partial class @VehicleControls: IInputActionCollection2, IDisposable
     public interface IVehicle1Actions
     {
         void OnMovement(InputAction.CallbackContext context);
-        void OnMovement1(InputAction.CallbackContext context);
+        void OnHeight(InputAction.CallbackContext context);
+        void OnLook(InputAction.CallbackContext context);
+        void OnCamera(InputAction.CallbackContext context);
     }
 }

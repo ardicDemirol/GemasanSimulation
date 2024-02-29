@@ -1,40 +1,54 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Inputs : MonoBehaviour
+public class Inputs : MonoSingleton<Inputs>
 {
     [Header("Character Input Values")]
     public Vector2 Move;
     public Vector2 Height;
     public Vector2 Look;
+    
 
     [Header("Mouse Cursor Settings")]
-    public bool cursorLocked = true;
-    public bool cursorInputForLook = true;
+    [SerializeField] bool cursorLocked = true;
+    [SerializeField] bool cursorInputForLook = true;
 
     private VehicleControls _vehicleControls;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         _vehicleControls = new VehicleControls();
     }
 
     private void OnEnable()
     {
+        SubscribeEvents();
+    }
+    private void OnDisable()
+    {
+        UnSubscribeEvents();
+    }
+
+
+
+    private void SubscribeEvents()
+    {
         _vehicleControls.Enable();
         _vehicleControls.Vehicle.Movement.performed += OnMovementPerformed;
         _vehicleControls.Vehicle.Movement.canceled += OnMovementCancelled;
-        
+
         _vehicleControls.Vehicle.Height.performed += OnHeightPerformed;
         _vehicleControls.Vehicle.Height.canceled += OnHeightCancelled;
 
         _vehicleControls.Vehicle.Look.performed += OnLookPerformed;
         _vehicleControls.Vehicle.Look.canceled += OnLookCancelled;
+
+        _vehicleControls.Vehicle.Camera.performed += OnCameraPerformed;
+
     }
 
-   
-
-    private void OnDisable()
+    private void UnSubscribeEvents()
     {
         _vehicleControls.Disable();
         _vehicleControls.Vehicle.Movement.performed -= OnMovementPerformed;
@@ -45,8 +59,12 @@ public class Inputs : MonoBehaviour
 
         _vehicleControls.Vehicle.Look.performed -= OnLookPerformed;
         _vehicleControls.Vehicle.Look.canceled -= OnLookCancelled;
+
+        _vehicleControls.Vehicle.Camera.performed -= OnCameraPerformed;
     }
 
+
+   
     private void OnMovementPerformed(InputAction.CallbackContext context)
     {
         MoveInput(context.ReadValue<Vector2>());
@@ -66,6 +84,12 @@ public class Inputs : MonoBehaviour
     {
         Height = Vector2.zero;
     }
+    
+    private void OnCameraPerformed(InputAction.CallbackContext context)
+    {
+        var keyName = context.control.name;
+        CameraSignals.Instance.OnCameraChanged?.Invoke(StringToInt(keyName));
+    }
 
     private void OnLookPerformed(InputAction.CallbackContext context)
     {
@@ -79,28 +103,24 @@ public class Inputs : MonoBehaviour
     {
         Look = Vector2.zero;
     }
+  
 
 
-   
-    public void MoveInput(Vector2 newMoveDirection)
+    private void MoveInput(Vector2 newMoveDirection)
     {
         Move = newMoveDirection;
     }
 
-    public void HeightInput(Vector2 newHeightDirection)
+    private void HeightInput(Vector2 newHeightDirection)
     {
         Height = newHeightDirection;
     }
 
-    public void LookInput(Vector2 newLookDirection)
+    private void LookInput(Vector2 newLookDirection)
     {
         Look = newLookDirection;
     }
-
-    
-
-
-
+   
     private void OnApplicationFocus(bool hasFocus)
     {
         SetCursorState(cursorLocked);
@@ -109,6 +129,20 @@ public class Inputs : MonoBehaviour
     private void SetCursorState(bool newState)
     {
         Cursor.lockState = newState ? CursorLockMode.Locked : CursorLockMode.None;
+    }
+
+
+    private int StringToInt(string input)
+    {
+        int result;
+        if (int.TryParse(input, out result))
+        {
+            return result;
+        }
+        else
+        {
+            return int.MinValue;
+        }
     }
 }
 

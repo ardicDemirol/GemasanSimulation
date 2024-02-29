@@ -8,27 +8,19 @@ public class VehicleController : MonoBehaviour
     [SerializeField] private float rotationSpeed = 1f;
     [SerializeField] private float stopAcceleration = 0.1f;
 
-    private Inputs _input;
     private Rigidbody _rb;
 
 
     private void Awake()
     {
-        _input = GetComponent<Inputs>();
         _rb = GetComponent<Rigidbody>();
     }
-    private void Start()
-    {
-
-
-    }
-
+   
     private void FixedUpdate()
     {
         MovementController();
         HeightController();
         MouseController();
-
         ClampVelocity();
 
     }
@@ -36,13 +28,13 @@ public class VehicleController : MonoBehaviour
     
     private void MovementController()
     {
-        if (_input.Move.y != 0f && Mathf.Abs(_rb.velocity.z) <= Mathf.Abs(maxVelocityZ))
+        if (Inputs.Instance.Move.y != 0f && Mathf.Abs(_rb.velocity.z) <= Mathf.Abs(maxVelocityZ))
         {
-            _rb.AddRelativeForce(100f * Time.fixedDeltaTime * _input.Move.y * Vector3.forward, ForceMode.Force);
+            _rb.AddRelativeForce(100f * Time.fixedDeltaTime * Inputs.Instance.Move.y * Vector3.forward, ForceMode.Force);
         }
-        if (_input.Move.x != 0f && Mathf.Abs(_rb.velocity.x) <= Mathf.Abs(maxVelocityX))
+        if (Inputs.Instance.Move.x != 0f && Mathf.Abs(_rb.velocity.x) <= Mathf.Abs(maxVelocityX))
         {
-            _rb.AddRelativeForce(_input.Move.x * 50f * Time.fixedDeltaTime * Vector3.right, ForceMode.Force);
+            _rb.AddRelativeForce(Inputs.Instance.Move.x * 50f * Time.fixedDeltaTime * Vector3.right, ForceMode.Force);
         }
         if (_rb.velocity.z != 0f)
         {
@@ -60,11 +52,11 @@ public class VehicleController : MonoBehaviour
     }
     private void HeightController()
     {
-        if (_input.Height != Vector2.zero)
+        if (Inputs.Instance.Height != Vector2.zero)
         {
             if (Mathf.Abs(_rb.velocity.y) <= Mathf.Abs(maxVelocityY))
             {
-                _rb.AddForce(_input.Height.y * 75f * Time.fixedDeltaTime * Vector3.up, ForceMode.Acceleration);
+                _rb.AddForce(Inputs.Instance.Height.y * 75f * Time.fixedDeltaTime * Vector3.up, ForceMode.Acceleration);
             }
 
         }
@@ -77,7 +69,7 @@ public class VehicleController : MonoBehaviour
 
     private void MouseController()
     {
-        transform.Rotate(Vector3.up, _input.Look.x * rotationSpeed * Time.fixedDeltaTime / 10);
+        transform.Rotate(Vector3.up, Inputs.Instance.Look.x * rotationSpeed * Time.fixedDeltaTime / 10);
     }
 
     private void ClampVelocity()

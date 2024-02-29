@@ -6,9 +6,9 @@ public class CameraController : MonoBehaviour
     [SerializeField] private GameObject[] cmVirtualCameras;
     [SerializeField] private CinemachineFreeLook freeLookCamera;
 
-    private void Start()
+    private void OnEnable()
     {
-        if (!TryGetComponent<CinemachineFreeLook>(out freeLookCamera)) return;
+        SubscribeEvents();
     }
 
     private void Update()
@@ -16,6 +16,22 @@ public class CameraController : MonoBehaviour
         bool enableFreeLook = Input.GetMouseButton(1);
         EnableFreeLook(enableFreeLook);
     }
+
+    private void OnDisable()
+    {
+        UnSubscribeEvents();
+    }
+
+    private void SubscribeEvents()
+    {
+        CameraSignals.Instance.OnCameraChanged += CameraChanged;
+    }
+
+    private void UnSubscribeEvents()
+    {
+        CameraSignals.Instance.OnCameraChanged -= CameraChanged;
+    }
+
 
 
     private void EnableFreeLook(bool enable)
@@ -30,4 +46,14 @@ public class CameraController : MonoBehaviour
         }
 
     }
+
+    private void CameraChanged(int index)
+    {
+        for (int i = 0; i < cmVirtualCameras.Length; i++)
+        {
+            cmVirtualCameras[i].SetActive(i == index - 1);
+        }
+    }
+
+
 }
