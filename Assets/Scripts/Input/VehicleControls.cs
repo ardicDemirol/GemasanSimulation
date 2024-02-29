@@ -53,6 +53,15 @@ public partial class @VehicleControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Camera"",
+                    ""type"": ""Button"",
+                    ""id"": ""9dd5df4c-27e0-49e0-996f-7eb49f595b95"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -154,6 +163,28 @@ public partial class @VehicleControls: IInputActionCollection2, IDisposable
                     ""action"": ""Height"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e4164982-c23f-4294-b663-da6565f5fb12"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Camera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1842b44f-dfa5-4fae-ad8a-3bbc023019d0"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Camera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -285,6 +316,7 @@ public partial class @VehicleControls: IInputActionCollection2, IDisposable
         m_Vehicle_Movement = m_Vehicle.FindAction("Movement", throwIfNotFound: true);
         m_Vehicle_Height = m_Vehicle.FindAction("Height", throwIfNotFound: true);
         m_Vehicle_Look = m_Vehicle.FindAction("Look", throwIfNotFound: true);
+        m_Vehicle_Camera = m_Vehicle.FindAction("Camera", throwIfNotFound: true);
         // Vehicle1
         m_Vehicle1 = asset.FindActionMap("Vehicle1", throwIfNotFound: true);
         m_Vehicle1_Movement = m_Vehicle1.FindAction("Movement", throwIfNotFound: true);
@@ -353,6 +385,7 @@ public partial class @VehicleControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Vehicle_Movement;
     private readonly InputAction m_Vehicle_Height;
     private readonly InputAction m_Vehicle_Look;
+    private readonly InputAction m_Vehicle_Camera;
     public struct VehicleActions
     {
         private @VehicleControls m_Wrapper;
@@ -360,6 +393,7 @@ public partial class @VehicleControls: IInputActionCollection2, IDisposable
         public InputAction @Movement => m_Wrapper.m_Vehicle_Movement;
         public InputAction @Height => m_Wrapper.m_Vehicle_Height;
         public InputAction @Look => m_Wrapper.m_Vehicle_Look;
+        public InputAction @Camera => m_Wrapper.m_Vehicle_Camera;
         public InputActionMap Get() { return m_Wrapper.m_Vehicle; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -378,6 +412,9 @@ public partial class @VehicleControls: IInputActionCollection2, IDisposable
             @Look.started += instance.OnLook;
             @Look.performed += instance.OnLook;
             @Look.canceled += instance.OnLook;
+            @Camera.started += instance.OnCamera;
+            @Camera.performed += instance.OnCamera;
+            @Camera.canceled += instance.OnCamera;
         }
 
         private void UnregisterCallbacks(IVehicleActions instance)
@@ -391,6 +428,9 @@ public partial class @VehicleControls: IInputActionCollection2, IDisposable
             @Look.started -= instance.OnLook;
             @Look.performed -= instance.OnLook;
             @Look.canceled -= instance.OnLook;
+            @Camera.started -= instance.OnCamera;
+            @Camera.performed -= instance.OnCamera;
+            @Camera.canceled -= instance.OnCamera;
         }
 
         public void RemoveCallbacks(IVehicleActions instance)
@@ -476,6 +516,7 @@ public partial class @VehicleControls: IInputActionCollection2, IDisposable
         void OnMovement(InputAction.CallbackContext context);
         void OnHeight(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
+        void OnCamera(InputAction.CallbackContext context);
     }
     public interface IVehicle1Actions
     {
