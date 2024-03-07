@@ -108,7 +108,10 @@ public class Inputs : MonoSingleton<Inputs>
 
     private void MoveInput(Vector2 newMoveDirection)
     {
-        Move = newMoveDirection;
+        if(newMoveDirection != Vector2.zero)
+        {
+            Move = newMoveDirection;
+        }
     }
 
     private void HeightInput(Vector2 newHeightDirection)

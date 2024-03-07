@@ -23,6 +23,7 @@ public class MonoSingleton<T> : MonoBehaviour where T : Component
 
     protected virtual void Awake()
     {
-        _instance = this as T;
+        if (_instance == null) _instance = this as T;
+        else Destroy(gameObject);
     }
 }
