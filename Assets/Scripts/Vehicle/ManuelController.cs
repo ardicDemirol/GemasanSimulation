@@ -18,10 +18,22 @@ public class ManuelController : MonoBehaviour
     //4 5
 
 
-    private float _rotY;
-
     private Rigidbody _rb;
+
+    private float _rotY;
     private bool _canRotate = true;
+
+
+
+    private static readonly Vector3 _forwardRotation = new(0, 90, 270);
+    private static readonly Vector3 _backwardRotation = new(0, 270, 270);
+    private static readonly Vector3 _leftRotation = new(0, 0, 270);
+    private static readonly Vector3 _rightRotation = new(0, 0, 90);
+    private static readonly Vector3 _upRotation = new(0, 0, 180);
+    private static readonly Vector3 _downRotation = Vector3.zero;
+
+    private static readonly short _positive = 1;
+    private static readonly short _negative = -1;
 
 
 
@@ -34,9 +46,10 @@ public class ManuelController : MonoBehaviour
     private void OnEnable() => SubscribeEvents();
     private void Update()
     {
-        Move();
+        Move(GetBalloonEffects());
 
         HandleBalloonEffectInputs();
+        RotateFrontAndBackPropellers();
     }
 
     private void OnDisable() => UnSubscribeEvents();
@@ -59,23 +72,27 @@ public class ManuelController : MonoBehaviour
         _canRotate = !arg0;
     }
 
-
-    private void Move()
+    private ParticleSystem[] GetBalloonEffects()
     {
-        if (Input.GetKey(KeyCode.LeftShift) && (Inputs.Instance.Move.x == 1)) moveSpeed = boostSpeed;
+        return balloonEffects;
+    }
+
+    private void Move(ParticleSystem[] balloonEffects)
+    {
+        if (Input.GetKey(KeyCode.LeftShift) && (Inputs.Instance.Move.x == _positive)) moveSpeed = boostSpeed;
         else moveSpeed = normalSpeed;
 
-        if (Inputs.Instance.Height.y == 1)
+        if (Inputs.Instance.Height.y == _positive)
         {
-            balloonEffects[2].gameObject.transform.localEulerAngles = new Vector3(0, 0, 180);
-            balloonEffects[3].gameObject.transform.localEulerAngles = new Vector3(0, 0, 180);
+            balloonEffects[2].gameObject.transform.localEulerAngles = _upRotation;
+            balloonEffects[3].gameObject.transform.localEulerAngles = _upRotation;
             balloonEffects[2].maxParticles = 200;
             balloonEffects[3].maxParticles = 200;
         }
-        else if (Inputs.Instance.Height.y == -1)
+        else if (Inputs.Instance.Height.y == _negative)
         {
-            balloonEffects[2].gameObject.transform.localEulerAngles = Vector3.zero;
-            balloonEffects[3].gameObject.transform.localEulerAngles = Vector3.zero;
+            balloonEffects[2].gameObject.transform.localEulerAngles = _downRotation;
+            balloonEffects[3].gameObject.transform.localEulerAngles = _downRotation;
             balloonEffects[2].maxParticles = 200;
             balloonEffects[3].maxParticles = 200;
         }
@@ -93,67 +110,42 @@ public class ManuelController : MonoBehaviour
         _rb.velocity = Vector3.Lerp(_rb.velocity, vel, Time.deltaTime * accelSpeed);
 
         _rotY = Inputs.Instance.Look.x * yawSpeed;
-        _rb.angularVelocity = Vector3.Lerp(_rb.angularVelocity, _canRotate ? new Vector3(0, _rotY, 0) : new Vector3(0, 0, 0), Time.deltaTime * yawAccelSpeed);
+        _rb.angularVelocity = Vector3.Lerp(_rb.angularVelocity, _canRotate ? new Vector3(0, _rotY, 0) : _downRotation, Time.deltaTime * yawAccelSpeed);
 
     }
 
     private void HandleBalloonEffectInputs()
     {
-        if (Inputs.Instance.Move.x == 1)
+        if (Inputs.Instance.Move.x == _positive)
         {
-            balloonEffects[0].transform.localEulerAngles = new Vector3(0, 0, 90);
-            balloonEffects[1].transform.localEulerAngles = new Vector3(0, 0, 90);
-            balloonEffects[4].transform.localEulerAngles = new Vector3(0, 0, 90);
-            balloonEffects[5].transform.localEulerAngles = new Vector3(0, 0, 90);
+            SetVFXEulerAngles(_rightRotation);
         }
-        else if (Inputs.Instance.Move.x == -1)
+        else if (Inputs.Instance.Move.x == _negative)
         {
-            balloonEffects[0].transform.localEulerAngles = new Vector3(0, 0, 270);
-            balloonEffects[1].transform.localEulerAngles = new Vector3(0, 0, 270);
-            balloonEffects[4].transform.localEulerAngles = new Vector3(0, 0, 270);
-            balloonEffects[5].transform.localEulerAngles = new Vector3(0, 0, 270);
+            SetVFXEulerAngles(_leftRotation);
         }
 
-        if (Inputs.Instance.Move.y == 1)
+        if (Inputs.Instance.Move.y == _positive)
         {
-            balloonEffects[0].transform.localEulerAngles = new Vector3(0, 90, 270);
-            balloonEffects[1].transform.localEulerAngles = new Vector3(0, 90, 270);
-            balloonEffects[4].transform.localEulerAngles = new Vector3(0, 90, 270);
-            balloonEffects[5].transform.localEulerAngles = new Vector3(0, 90, 270);
+            SetVFXEulerAngles(_forwardRotation);
         }
-        else if (Inputs.Instance.Move.y == -1)
+        else if (Inputs.Instance.Move.y == _negative)
         {
-            balloonEffects[0].transform.localEulerAngles = new Vector3(0, 270, 270);
-            balloonEffects[1].transform.localEulerAngles = new Vector3(0, 270, 270);
-            balloonEffects[4].transform.localEulerAngles = new Vector3(0, 270, 270);
-            balloonEffects[5].transform.localEulerAngles = new Vector3(0, 270, 270);
+            SetVFXEulerAngles(_backwardRotation);
         }
 
-        if (Inputs.Instance.Move.y == 0 && Inputs.Instance.Move.x == 0)
-        {
-            PauseEffects();
-        }
-        else
-        {
-            ResumeEffects();
-        }
+        SetVFXCount(Inputs.Instance.Move.y == 0 && Inputs.Instance.Move.x == 0 ? 0 : 400);
 
-
-        //SetVFXRotation( && Inputs.Instance.Move.x != 0 ? new Vector3(0, 0, 90) : new Vector3(0, 0, 270));
-        //SetVFXRotation(Inputs.Instance.Move.y == 1 && Inputs.Instance.Move.y != 0 ? new Vector3(90, 0, 180) : new Vector3(270, 0, 180));
-    }
-
-
-    private bool InputController()
-    {
-        return Inputs.Instance.Move != Vector2.zero || Inputs.Instance.Height != Vector2.zero || Inputs.Instance.Look != Vector2.zero;
     }
 
 
     #region Propeller Rotations
     private void RotatePropeller(GameObject propeller)
     {
-        propeller.transform.Rotate(propellerRotateValue * Time.deltaTime * Vector3.up);
+        //propeller.transform.Rotate(propellerRotateValue * Time.deltaTime * Vector3.up);
+        
+        propeller.transform.Rotate(Vector3.up, propellerRotateValue * Time.deltaTime);
+
     }
 
     private void RotateMiddlePropellers()
@@ -170,24 +162,28 @@ public class ManuelController : MonoBehaviour
         RotatePropeller(propellers[5]);
     }
 
-    private void ResumeEffects()
-    {
-        balloonEffects[0].maxParticles = 400;
-        balloonEffects[1].maxParticles = 400;
-        balloonEffects[4].maxParticles = 400;
-        balloonEffects[5].maxParticles = 400;
-    }
 
-    private void PauseEffects()
-    {
-        balloonEffects[0].maxParticles = 0;
-        balloonEffects[1].maxParticles = 0;
-        balloonEffects[4].maxParticles = 0;
-        balloonEffects[5].maxParticles = 0;
-    }
 
     #endregion
 
+    #region Balloon Effects
+
+    void SetVFXEulerAngles(Vector3 vector3)
+    {
+        balloonEffects[0].transform.localEulerAngles = vector3;
+        balloonEffects[1].transform.localEulerAngles = vector3;
+        balloonEffects[4].transform.localEulerAngles = vector3;
+        balloonEffects[5].transform.localEulerAngles = vector3;
+    }
+
+    void SetVFXCount(int value)
+    {
+        balloonEffects[0].maxParticles = value;
+        balloonEffects[1].maxParticles = value;
+        balloonEffects[4].maxParticles = value;
+        balloonEffects[5].maxParticles = value;
+    }
+    #endregion
 
 
 }
