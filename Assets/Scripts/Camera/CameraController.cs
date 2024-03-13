@@ -6,6 +6,11 @@ public class CameraController : MonoBehaviour
     [SerializeField] private GameObject[] cmVirtualCameras;
     [SerializeField] private CinemachineFreeLook freeLookCamera;
 
+    private static readonly string _mouseX = "Mouse X";
+    private static readonly string _mouseY = "Mouse Y";
+    private static readonly string _empty = "";
+
+
     private void OnEnable()
     {
         SubscribeEvents();
@@ -13,8 +18,7 @@ public class CameraController : MonoBehaviour
 
     private void Update()
     {
-        bool enableFreeLook = Input.GetMouseButton(1);
-        EnableFreeLook(enableFreeLook);
+        EnableFreeLook(Input.GetMouseButton(1));
     }
 
     private void OnDisable()
@@ -36,17 +40,15 @@ public class CameraController : MonoBehaviour
 
     private void EnableFreeLook(bool enable)
     {
-        CameraSignals.Instance.OnPressRightClick?.Invoke(true);
-        freeLookCamera.m_XAxis.m_InputAxisName = enable ? "Mouse X" : "";
-        freeLookCamera.m_YAxis.m_InputAxisName = enable ? "Mouse Y" : "";
+        freeLookCamera.m_XAxis.m_InputAxisName = enable ? _mouseX : _empty;
+        freeLookCamera.m_YAxis.m_InputAxisName = enable ? _mouseY : _empty;
 
         if (!enable)
         {
-            CameraSignals.Instance.OnPressRightClick?.Invoke(false);
             freeLookCamera.m_XAxis.m_InputAxisValue = 0f;
             freeLookCamera.m_YAxis.m_InputAxisValue = 0f;
         }
-        //CameraSignals.Instance.OnPressRightClick?.Invoke(enable);
+        CameraSignals.Instance.OnPressRightClick?.Invoke(enable);
     }
 
     private void CameraChanged(int index)

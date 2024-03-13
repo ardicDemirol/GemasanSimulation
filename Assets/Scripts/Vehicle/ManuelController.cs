@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class ManuelController : MonoBehaviour
 {
+
     [SerializeField] private float moveSpeed = 3;
     [SerializeField] private float boostSpeed = 5;
     [SerializeField] private float normalSpeed = 3;
@@ -21,7 +22,7 @@ public class ManuelController : MonoBehaviour
     private Rigidbody _rb;
 
     private float _rotY;
-    private bool _canRotate = true;
+    private bool _canRotateVehicle = true;
 
 
 
@@ -34,25 +35,29 @@ public class ManuelController : MonoBehaviour
 
     private static readonly short _positive = 1;
     private static readonly short _negative = -1;
+    private static readonly short _zero = 0;
+    private static readonly short _maxParticle = 200;
+
 
 
 
     #region Unity Callbacks
+
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
     }
 
     private void OnEnable() => SubscribeEvents();
+
     private void Update()
     {
-        Move(GetBalloonEffects());
-
+        Move();
         HandleBalloonEffectInputs();
-        RotateFrontAndBackPropellers();
     }
 
     private void OnDisable() => UnSubscribeEvents();
+
     #endregion
 
     #region Event Subscriptions
@@ -69,48 +74,19 @@ public class ManuelController : MonoBehaviour
 
     private void PressRightClick(bool arg0)
     {
-        _canRotate = !arg0;
+        _canRotateVehicle = !arg0;
     }
 
-    private ParticleSystem[] GetBalloonEffects()
-    {
-        return balloonEffects;
-    }
-
-    private void Move(ParticleSystem[] balloonEffects)
+    private void Move()
     {
         if (Input.GetKey(KeyCode.LeftShift) && (Inputs.Instance.Move.x == _positive)) moveSpeed = boostSpeed;
         else moveSpeed = normalSpeed;
-
-        if (Inputs.Instance.Height.y == _positive)
-        {
-            balloonEffects[2].gameObject.transform.localEulerAngles = _upRotation;
-            balloonEffects[3].gameObject.transform.localEulerAngles = _upRotation;
-            balloonEffects[2].maxParticles = 200;
-            balloonEffects[3].maxParticles = 200;
-        }
-        else if (Inputs.Instance.Height.y == _negative)
-        {
-            balloonEffects[2].gameObject.transform.localEulerAngles = _downRotation;
-            balloonEffects[3].gameObject.transform.localEulerAngles = _downRotation;
-            balloonEffects[2].maxParticles = 200;
-            balloonEffects[3].maxParticles = 200;
-        }
-        else
-        {
-            balloonEffects[2].maxParticles = 0;
-            balloonEffects[3].maxParticles = 0;
-        }
-
-        //Vector3 rot = new(0f, transform.eulerAngles.y, 0f);
-        //transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(rot), Time.deltaTime * rotSpeed);
-
 
         Vector3 vel = (transform.forward * Inputs.Instance.Move.y + transform.right * Inputs.Instance.Move.x + transform.up * Inputs.Instance.Height.y).normalized * moveSpeed;
         _rb.velocity = Vector3.Lerp(_rb.velocity, vel, Time.deltaTime * accelSpeed);
 
         _rotY = Inputs.Instance.Look.x * yawSpeed;
-        _rb.angularVelocity = Vector3.Lerp(_rb.angularVelocity, _canRotate ? new Vector3(0, _rotY, 0) : _downRotation, Time.deltaTime * yawAccelSpeed);
+        _rb.angularVelocity = Vector3.Lerp(_rb.angularVelocity, _canRotateVehicle ? new Vector3(0, _rotY, 0) : _downRotation, Time.deltaTime * yawAccelSpeed);
 
     }
 
@@ -118,23 +94,71 @@ public class ManuelController : MonoBehaviour
     {
         if (Inputs.Instance.Move.x == _positive)
         {
-            SetVFXEulerAngles(_rightRotation);
+            RotateFrontAndBackPropellers();
+            SetVFXEulerAngles(_rightRotation, RotatePropellerType.Move);
+            SetVFXCount(_maxParticle, RotatePropellerType.Move);
         }
         else if (Inputs.Instance.Move.x == _negative)
         {
-            SetVFXEulerAngles(_leftRotation);
+            RotateFrontAndBackPropellers();
+            SetVFXEulerAngles(_leftRotation, RotatePropellerType.Move);
+            SetVFXCount(_maxParticle, RotatePropellerType.Move);
         }
 
         if (Inputs.Instance.Move.y == _positive)
         {
-            SetVFXEulerAngles(_forwardRotation);
+            RotateFrontAndBackPropellers();
+            SetVFXEulerAngles(_forwardRotation, RotatePropellerType.Move);
+            SetVFXCount(_maxParticle, RotatePropellerType.Move);
         }
         else if (Inputs.Instance.Move.y == _negative)
         {
-            SetVFXEulerAngles(_backwardRotation);
+            RotateFrontAndBackPropellers();
+            SetVFXEulerAngles(_backwardRotation, RotatePropellerType.Move);
+            SetVFXCount(_maxParticle, RotatePropellerType.Move);
         }
 
-        SetVFXCount(Inputs.Instance.Move.y == 0 && Inputs.Instance.Move.x == 0 ? 0 : 400);
+
+        if (Inputs.Instance.Height.y == _positive)
+        {
+            RotateMiddlePropellers();
+            SetVFXEulerAngles(_upRotation, RotatePropellerType.Height);
+            SetVFXCount(_maxParticle, RotatePropellerType.Height);
+        }
+        else if (Inputs.Instance.Height.y == _negative)
+        {
+            RotateMiddlePropellers();
+            SetVFXEulerAngles(_downRotation, RotatePropellerType.Height);
+            SetVFXCount(_maxParticle, RotatePropellerType.Height);
+        }
+
+        if (Inputs.Instance.Look.x > _zero)
+        {
+            RotateFrontAndBackPropellers();
+            if(Inputs.Instance.Move == Vector2.zero && _canRotateVehicle)
+            {
+                SetVFXEulerAngles(_rightRotation, RotatePropellerType.Move);
+                SetVFXCount(_maxParticle, RotatePropellerType.Move);
+            }
+        }
+        else if (Inputs.Instance.Look.x < _zero)
+        {
+            RotateFrontAndBackPropellers();
+            if (Inputs.Instance.Move == Vector2.zero && _canRotateVehicle)
+            {
+                SetVFXEulerAngles(_leftRotation, RotatePropellerType.Move);
+                SetVFXCount(_maxParticle, RotatePropellerType.Move);
+            }
+        }
+
+        if(Inputs.Instance.Move == Vector2.zero && Inputs.Instance.Look.x == _zero)
+        {
+            SetVFXCount(_zero, RotatePropellerType.Move);
+        }
+        else if(Inputs.Instance.Height == Vector2.zero)
+        {
+            SetVFXCount(_zero, RotatePropellerType.Height);
+        }
 
     }
 
@@ -142,10 +166,7 @@ public class ManuelController : MonoBehaviour
     #region Propeller Rotations
     private void RotatePropeller(GameObject propeller)
     {
-        //propeller.transform.Rotate(propellerRotateValue * Time.deltaTime * Vector3.up);
-        
-        propeller.transform.Rotate(Vector3.up, propellerRotateValue * Time.deltaTime);
-
+        if(_canRotateVehicle) propeller.transform.Rotate(Vector3.up, propellerRotateValue * Time.deltaTime);
     }
 
     private void RotateMiddlePropellers()
@@ -163,25 +184,41 @@ public class ManuelController : MonoBehaviour
     }
 
 
-
     #endregion
 
     #region Balloon Effects
 
-    void SetVFXEulerAngles(Vector3 vector3)
+    void SetVFXEulerAngles(Vector3 vector3, RotatePropellerType rotatePropellers)
     {
-        balloonEffects[0].transform.localEulerAngles = vector3;
-        balloonEffects[1].transform.localEulerAngles = vector3;
-        balloonEffects[4].transform.localEulerAngles = vector3;
-        balloonEffects[5].transform.localEulerAngles = vector3;
+        if (rotatePropellers == RotatePropellerType.Move)
+        {
+            balloonEffects[0].transform.localEulerAngles = vector3;
+            balloonEffects[1].transform.localEulerAngles = vector3;
+            balloonEffects[4].transform.localEulerAngles = vector3;
+            balloonEffects[5].transform.localEulerAngles = vector3;
+        }
+        else if (rotatePropellers == RotatePropellerType.Height)
+        {
+            balloonEffects[2].gameObject.transform.localEulerAngles = vector3;
+            balloonEffects[3].gameObject.transform.localEulerAngles = vector3;
+        }
     }
 
-    void SetVFXCount(int value)
+    void SetVFXCount(int value, RotatePropellerType rotatePropellers)
     {
-        balloonEffects[0].maxParticles = value;
-        balloonEffects[1].maxParticles = value;
-        balloonEffects[4].maxParticles = value;
-        balloonEffects[5].maxParticles = value;
+        if (rotatePropellers == RotatePropellerType.Move)
+        {
+            balloonEffects[0].maxParticles = value;
+            balloonEffects[1].maxParticles = value;
+            balloonEffects[4].maxParticles = value;
+            balloonEffects[5].maxParticles = value;
+        }
+        else if (rotatePropellers == RotatePropellerType.Height)
+        {
+            balloonEffects[2].maxParticles = value;
+            balloonEffects[3].maxParticles = value;
+        }
+
     }
     #endregion
 
