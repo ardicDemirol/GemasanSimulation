@@ -2,15 +2,13 @@ using UnityEngine;
 
 public class ManuelController : MonoBehaviour
 {
-
-    [SerializeField] private float moveSpeed = 3;
-    [SerializeField] private float boostSpeed = 5;
     [SerializeField] private float normalSpeed = 3;
+    [SerializeField] private float boostSpeed = 5;
     [SerializeField] private float accelSpeed = 1;
     //[SerializeField] private float rotSpeed = 5;
     [SerializeField] private float yawSpeed = 0.1f;
     [SerializeField] private float yawAccelSpeed = 2;
-    [SerializeField] private float propellerRotateValue;
+    [SerializeField] private float propellerRotateValue = 5000;
 
     [SerializeField] private ParticleSystem[] balloonEffects;
     [SerializeField] private GameObject[] propellers;
@@ -21,6 +19,7 @@ public class ManuelController : MonoBehaviour
 
     private Rigidbody _rb;
 
+    private float _moveSpeed;
     private float _rotY;
     private bool _canRotateVehicle = true;
 
@@ -79,10 +78,10 @@ public class ManuelController : MonoBehaviour
 
     private void Move()
     {
-        if (Input.GetKey(KeyCode.LeftShift) && (Inputs.Instance.Move.x == _positive)) moveSpeed = boostSpeed;
-        else moveSpeed = normalSpeed;
+        if (Inputs.Instance.LeftShiftPressed && (Inputs.Instance.Move.y == _positive)) _moveSpeed = boostSpeed;
+        else _moveSpeed = normalSpeed;
 
-        Vector3 vel = (transform.forward * Inputs.Instance.Move.y + transform.right * Inputs.Instance.Move.x + transform.up * Inputs.Instance.Height.y).normalized * moveSpeed;
+        Vector3 vel = (transform.forward * Inputs.Instance.Move.y + transform.right * Inputs.Instance.Move.x + transform.up * Inputs.Instance.Height.y).normalized * _moveSpeed;
         _rb.velocity = Vector3.Lerp(_rb.velocity, vel, Time.deltaTime * accelSpeed);
 
         _rotY = Inputs.Instance.Look.x * yawSpeed;

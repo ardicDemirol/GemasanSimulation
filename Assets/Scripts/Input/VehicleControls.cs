@@ -62,6 +62,33 @@ public partial class @VehicleControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MouseScroll"",
+                    ""type"": ""Value"",
+                    ""id"": ""07f79597-6c72-4c30-a8a6-a19797f24c19"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""MouseButton"",
+                    ""type"": ""Button"",
+                    ""id"": ""d02f92c2-4165-4b39-ac6c-0446cb7fff30"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SpeedUp"",
+                    ""type"": ""Button"",
+                    ""id"": ""2eaadf68-afb7-4d50-ac5c-7d77144be1fe"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -205,6 +232,50 @@ public partial class @VehicleControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Camera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9e836fe1-a10d-40f4-bd08-d2fc67681eae"",
+                    ""path"": ""<Mouse>/scroll"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MouseScroll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""374774d1-b2f7-4aa1-8b12-62be8387e00d"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MouseButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d6375cf2-84a4-49fd-8381-38f007b121e0"",
+                    ""path"": ""<Mouse>/middleButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MouseButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f54bbbdd-a05d-4e72-a114-19d74ddb8886"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SpeedUp"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -390,6 +461,9 @@ public partial class @VehicleControls: IInputActionCollection2, IDisposable
         m_Vehicle_Height = m_Vehicle.FindAction("Height", throwIfNotFound: true);
         m_Vehicle_Look = m_Vehicle.FindAction("Look", throwIfNotFound: true);
         m_Vehicle_Camera = m_Vehicle.FindAction("Camera", throwIfNotFound: true);
+        m_Vehicle_MouseScroll = m_Vehicle.FindAction("MouseScroll", throwIfNotFound: true);
+        m_Vehicle_MouseButton = m_Vehicle.FindAction("MouseButton", throwIfNotFound: true);
+        m_Vehicle_SpeedUp = m_Vehicle.FindAction("SpeedUp", throwIfNotFound: true);
         // Vehicle1
         m_Vehicle1 = asset.FindActionMap("Vehicle1", throwIfNotFound: true);
         m_Vehicle1_Movement = m_Vehicle1.FindAction("Movement", throwIfNotFound: true);
@@ -461,6 +535,9 @@ public partial class @VehicleControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Vehicle_Height;
     private readonly InputAction m_Vehicle_Look;
     private readonly InputAction m_Vehicle_Camera;
+    private readonly InputAction m_Vehicle_MouseScroll;
+    private readonly InputAction m_Vehicle_MouseButton;
+    private readonly InputAction m_Vehicle_SpeedUp;
     public struct VehicleActions
     {
         private @VehicleControls m_Wrapper;
@@ -469,6 +546,9 @@ public partial class @VehicleControls: IInputActionCollection2, IDisposable
         public InputAction @Height => m_Wrapper.m_Vehicle_Height;
         public InputAction @Look => m_Wrapper.m_Vehicle_Look;
         public InputAction @Camera => m_Wrapper.m_Vehicle_Camera;
+        public InputAction @MouseScroll => m_Wrapper.m_Vehicle_MouseScroll;
+        public InputAction @MouseButton => m_Wrapper.m_Vehicle_MouseButton;
+        public InputAction @SpeedUp => m_Wrapper.m_Vehicle_SpeedUp;
         public InputActionMap Get() { return m_Wrapper.m_Vehicle; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -490,6 +570,15 @@ public partial class @VehicleControls: IInputActionCollection2, IDisposable
             @Camera.started += instance.OnCamera;
             @Camera.performed += instance.OnCamera;
             @Camera.canceled += instance.OnCamera;
+            @MouseScroll.started += instance.OnMouseScroll;
+            @MouseScroll.performed += instance.OnMouseScroll;
+            @MouseScroll.canceled += instance.OnMouseScroll;
+            @MouseButton.started += instance.OnMouseButton;
+            @MouseButton.performed += instance.OnMouseButton;
+            @MouseButton.canceled += instance.OnMouseButton;
+            @SpeedUp.started += instance.OnSpeedUp;
+            @SpeedUp.performed += instance.OnSpeedUp;
+            @SpeedUp.canceled += instance.OnSpeedUp;
         }
 
         private void UnregisterCallbacks(IVehicleActions instance)
@@ -506,6 +595,15 @@ public partial class @VehicleControls: IInputActionCollection2, IDisposable
             @Camera.started -= instance.OnCamera;
             @Camera.performed -= instance.OnCamera;
             @Camera.canceled -= instance.OnCamera;
+            @MouseScroll.started -= instance.OnMouseScroll;
+            @MouseScroll.performed -= instance.OnMouseScroll;
+            @MouseScroll.canceled -= instance.OnMouseScroll;
+            @MouseButton.started -= instance.OnMouseButton;
+            @MouseButton.performed -= instance.OnMouseButton;
+            @MouseButton.canceled -= instance.OnMouseButton;
+            @SpeedUp.started -= instance.OnSpeedUp;
+            @SpeedUp.performed -= instance.OnSpeedUp;
+            @SpeedUp.canceled -= instance.OnSpeedUp;
         }
 
         public void RemoveCallbacks(IVehicleActions instance)
@@ -608,6 +706,9 @@ public partial class @VehicleControls: IInputActionCollection2, IDisposable
         void OnHeight(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
         void OnCamera(InputAction.CallbackContext context);
+        void OnMouseScroll(InputAction.CallbackContext context);
+        void OnMouseButton(InputAction.CallbackContext context);
+        void OnSpeedUp(InputAction.CallbackContext context);
     }
     public interface IVehicle1Actions
     {
