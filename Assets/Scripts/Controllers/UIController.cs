@@ -1,10 +1,12 @@
 using UnityEngine;
 using TMPro;
+using System.Text;
 
 public class UIController : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI compassInfoText;
     [SerializeField] private TextMeshProUGUI depthInfoText;
+   
 
     private void OnEnable()
     {
@@ -30,11 +32,12 @@ public class UIController : MonoBehaviour
 
     private void ChangeCompassInfo(CompassDirection direction)
     {
-        compassInfoText.text = direction.ToString();
+        compassInfoText.text = Extensions.StringBuilderAppend(direction.ToString());
     }
 
     private void ChangeDepthInfo(float depth)
     {
-        depthInfoText.text = Mathf.Abs(depth).ToString();
+        depthInfoText.text = Extensions.StringBuilderAppend(Mathf.Abs(depth).ToString());
+
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 public static class Extensions
@@ -247,6 +248,12 @@ public static class Extensions
         main.maxParticles = _newMaxParticle;
     }
 
+    public static string StringBuilderAppend(string _text)
+    {
+        StringBuilder _builder = new();
+        _builder.Append(_text);
+        return _builder.ToString();
+    }
     public static float WriteNDigit<T>(T _number, int _digit) where T : struct, IConvertible
     {
         if (!typeof(T).IsNumericType()) // T'nin bir sayýsal tür olup olmadýðýný kontrol etmek için geniþletme metodu kullanýlýr.
