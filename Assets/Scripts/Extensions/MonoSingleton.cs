@@ -1,29 +1,38 @@
 using UnityEngine;
 public class MonoSingleton<T> : MonoBehaviour where T : Component
 {
-    private static T _instance;
-
+    private static bool isQuitting;
+    private static T instance = null;
     public static T Instance
     {
         get
         {
-            if (_instance == null)
+            if (instance == null && !isQuitting)
             {
-                _instance = FindObjectOfType<T>();
-                if (_instance == null)
-                {
-                    GameObject newGO = new();
-                    _instance = newGO.AddComponent<T>();
-                }
+                FindOrCreateInstance();
+                Application.quitting += () => isQuitting = true;
             }
-
-            return _instance;
+            return instance;
         }
     }
 
-    protected virtual void Awake()
+    /// <summary>Looks for an existing instance, if not found creates one. If multiple are found, reports error.</summary>
+    private static void FindOrCreateInstance()
     {
-        if (_instance == null) _instance = this as T;
-        else Destroy(gameObject);
+        T[] instanceArray = FindObjectsOfType<T>();
+        if (instanceArray.Length == 0)
+        {
+            instance = new GameObject(typeof(T).Name).AddComponent<T>();
+        }
+        else if (instanceArray.Length == 1)
+        {
+            instance = instanceArray[0];
+        }
+        else if (instanceArray.Length > 1)
+        {
+            Debug.LogError($"<color=yellow>Multiple instances of the singleton [{typeof(T).Name}] exists.</color>");
+            Debug.Break();
+        }
+        DontDestroyOnLoad(instance);
     }
 }
