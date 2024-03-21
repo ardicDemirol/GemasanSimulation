@@ -57,6 +57,7 @@ public class ManuelController : MonoSingleton<ManuelController>
 
     #endregion
 
+    
     #region Event Subscriptions
     private void SubscribeEvents()
     {
@@ -152,7 +153,7 @@ public class ManuelController : MonoSingleton<ManuelController>
         {
             SetVFXCount(_zero, RotatePropellerType.Move);
         }
-        else if (Inputs.Instance.Height == Vector2.zero)
+        if (Inputs.Instance.Height == Vector2.zero)
         {
             SetVFXCount(_zero, RotatePropellerType.Height);
         }

@@ -1,11 +1,11 @@
 using UnityEngine;
 using TMPro;
-using System.Text;
 
 public class UIController : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI compassInfoText;
     [SerializeField] private TextMeshProUGUI depthInfoText;
+    [SerializeField] private GameObject boundaryWarningPanel;
    
 
     private void OnEnable()
@@ -22,12 +22,19 @@ public class UIController : MonoBehaviour
     {
         UISignals.Instance.OnCompassInfoChanged += ChangeCompassInfo;
         UISignals.Instance.OnDephtInfoChanged += ChangeDepthInfo;
+        UISignals.Instance.OnBoundaryInfoPanelOpen += ChangeBoundaryPanel;
     }
 
     private void UnSubscribeEvents()
     {
         UISignals.Instance.OnCompassInfoChanged -= ChangeCompassInfo;
         UISignals.Instance.OnDephtInfoChanged -= ChangeDepthInfo;
+        UISignals.Instance.OnBoundaryInfoPanelOpen -= ChangeBoundaryPanel;
+    }
+
+    private void ChangeBoundaryPanel(bool arg0)
+    {
+        boundaryWarningPanel.SetActive(arg0);
     }
 
     private void ChangeCompassInfo(CompassDirection direction)
@@ -38,6 +45,5 @@ public class UIController : MonoBehaviour
     private void ChangeDepthInfo(float depth)
     {
         depthInfoText.text = Extensions.StringBuilderAppend(Mathf.Abs(depth).ToString());
-
     }
 }

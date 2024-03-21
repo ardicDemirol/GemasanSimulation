@@ -6,6 +6,8 @@ public class CameraController : MonoBehaviour
     [SerializeField] private GameObject[] cmVirtualCameras;
     [SerializeField] private CinemachineFreeLook freeLookCamera;
 
+    private byte _lastCameraIndex;
+
     private static readonly string _mouseX = "Mouse X";
     private static readonly string _mouseY = "Mouse Y";
     private static readonly string _empty = "";
@@ -29,13 +31,14 @@ public class CameraController : MonoBehaviour
     private void SubscribeEvents()
     {
         CameraSignals.Instance.OnCameraChanged += CameraChanged;
+        CameraSignals.Instance.OnPressMiddleClick += ChangeArmCamera;
     }
 
     private void UnSubscribeEvents()
     {
         CameraSignals.Instance.OnCameraChanged -= CameraChanged;
+        CameraSignals.Instance.OnPressMiddleClick -= ChangeArmCamera;
     }
-
 
 
     private void EnableFreeLook(bool enable)
@@ -56,8 +59,19 @@ public class CameraController : MonoBehaviour
         for (int i = 0; i < cmVirtualCameras.Length; i++)
         {
             cmVirtualCameras[i].SetActive(i == index - 1);
+            _lastCameraIndex = (byte)index;
         }
     }
+
+    private void ChangeArmCamera(bool arg0)
+    {
+        if (_lastCameraIndex == 4)
+        {
+            cmVirtualCameras[3].SetActive(!arg0);
+            cmVirtualCameras[4].SetActive(arg0);
+        }
+    }
+
 
 
 }

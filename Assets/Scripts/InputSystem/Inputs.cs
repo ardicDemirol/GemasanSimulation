@@ -19,7 +19,7 @@ public class Inputs : MonoSingleton<Inputs>
 
     private VehicleController _vehicleControls;
 
-   
+
     private void Awake()
     {
         _vehicleControls = new VehicleController();
@@ -171,16 +171,18 @@ public class Inputs : MonoSingleton<Inputs>
     {
         MouseScroll = (short)newScrollDirection.y;
     }
-    private void MouseLeftButtonInput(bool newMouseButton)
+    private void MouseLeftButtonInput(bool newLeftMouseButton)
     {
-        LeftMouseButtonPressed = newMouseButton;
+        LeftMouseButtonPressed = newLeftMouseButton;
     }
 
-    private void MouseMiddleButtonInput(bool newMouseButton)
+    private void MouseMiddleButtonInput(bool newMiddleMouseButton)
     {
-        if (newMouseButton)
+        if (newMiddleMouseButton)
         {
             MiddleMouseButtonPressed = !MiddleMouseButtonPressed;
+            //MiddleMouseButtonPressed = newMiddleMouseButton;
+            CameraSignals.Instance.OnPressMiddleClick?.Invoke(MiddleMouseButtonPressed);
         }
     }
 
