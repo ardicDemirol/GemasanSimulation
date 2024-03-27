@@ -1,4 +1,6 @@
+using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class ManuelController : MonoSingleton<ManuelController>
 {
@@ -8,6 +10,8 @@ public class ManuelController : MonoSingleton<ManuelController>
     //[SerializeField] private float rotSpeed = 5;
     [SerializeField] private float yawSpeed = 0.1f;
     [SerializeField] private float yawAccelSpeed = 2;
+    [SerializeField] private float idleDuration = 5f;
+    [SerializeField] private float idleMoveDistance = 0.7f;
     [SerializeField] private float propellerRotateValue = 5000;
 
     [SerializeField] private ParticleSystem[] balloonEffects;
@@ -18,10 +22,12 @@ public class ManuelController : MonoSingleton<ManuelController>
 
 
     private Rigidbody _rb;
+    private Tween _tween;
 
     private float _moveSpeed;
     private float _rotY;
     private bool _canRotateVehicle = true;
+    private bool _canStayIdleMode = true;
 
 
 
@@ -36,6 +42,7 @@ public class ManuelController : MonoSingleton<ManuelController>
     private static readonly short _negative = -1;
     private static readonly short _zero = 0;
     private static readonly short _maxParticle = 200;
+    private static readonly short _midParticle = 100;
 
 
     #region Unity Callbacks
@@ -57,7 +64,7 @@ public class ManuelController : MonoSingleton<ManuelController>
 
     #endregion
 
-    
+
     #region Event Subscriptions
     private void SubscribeEvents()
     {
@@ -77,6 +84,8 @@ public class ManuelController : MonoSingleton<ManuelController>
 
     private void Move()
     {
+        VehicleIdleController();
+
         if (Inputs.Instance.LeftShiftPressed && (Inputs.Instance.Move.y == _positive)) _moveSpeed = boostSpeed;
         else _moveSpeed = normalSpeed;
 
@@ -153,11 +162,34 @@ public class ManuelController : MonoSingleton<ManuelController>
         {
             SetVFXCount(_zero, RotatePropellerType.Move);
         }
-        if (Inputs.Instance.Height == Vector2.zero)
+        if (Inputs.Instance.Height == Vector2.zero && _canStayIdleMode)
         {
             SetVFXCount(_zero, RotatePropellerType.Height);
         }
 
+    }
+
+    void VehicleIdleController()
+    {
+        if (Inputs.Instance.Move == Vector2.zero && Inputs.Instance.Height == Vector2.zero && _rb.velocity.magnitude < 0.1f && _canStayIdleMode)
+        {
+            _tween = transform.DOMoveY(transform.position.y + idleMoveDistance, idleDuration).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.Linear);
+
+            _canStayIdleMode = false;
+        }
+        else if ((Inputs.Instance.Move != Vector2.zero || Inputs.Instance.Height != Vector2.zero) && !_canStayIdleMode)
+        {
+            _tween?.Kill();
+            _canStayIdleMode = true;
+        }
+
+        if (!_canStayIdleMode)
+        {
+            RotateMiddlePropellers();
+            SetVFXCount(_midParticle, RotatePropellerType.Height);
+            balloonEffects[2].gameObject.transform.localEulerAngles = _downRotation;
+            balloonEffects[3].gameObject.transform.localEulerAngles = _upRotation;
+        }
     }
 
 
@@ -216,7 +248,6 @@ public class ManuelController : MonoSingleton<ManuelController>
             Extensions.ChangeMaxParticle(balloonEffects[2], value);
             Extensions.ChangeMaxParticle(balloonEffects[3], value);
         }
-
     }
     #endregion
 
