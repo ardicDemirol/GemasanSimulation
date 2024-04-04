@@ -27,15 +27,16 @@ public class WaterVFXController : MonoBehaviour
                 }
                 else if (other.TryGetComponent(out SpriteRenderer spriteRenderer))
                 {
-                    //spriteRenderer.enabled = false;
                     spriteRenderer.material.DOFade(0, 3f);
                 }
-                else if(other.TryGetComponent(out MeshRenderer meshRenderer))
+                else if (other.TryGetComponent(out MeshRenderer meshRenderer))
                 {
                     meshRenderer.material.DOFade(0, 3f);
                 }
 
                 UISignals.Instance.OnDirtClean?.Invoke();
+                EventSignals.Instance.OnDirtClean?.Invoke(other);
+
             }
         }
     }

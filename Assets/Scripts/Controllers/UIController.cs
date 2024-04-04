@@ -3,6 +3,7 @@ using TMPro;
 
 public class UIController : MonoBehaviour
 {
+    [SerializeField] private TextMeshProUGUI timerText;
     [SerializeField] private TextMeshProUGUI compassInfoText;
     [SerializeField] private TextMeshProUGUI depthInfoText;
     [SerializeField] private TextMeshProUGUI cleanedDirtText;
@@ -11,7 +12,8 @@ public class UIController : MonoBehaviour
 
 
     private short _cleanedDirtAmount;
-    private int _score;
+    private uint _score;
+    private readonly short _sixty = 60;
 
     private void OnEnable()
     {
@@ -29,6 +31,7 @@ public class UIController : MonoBehaviour
         UISignals.Instance.OnDephtInfoChanged += ChangeDepthInfo;
         UISignals.Instance.OnBoundaryInfoPanelOpen += ChangeBoundaryPanel;
         UISignals.Instance.OnDirtClean += ChangeSuccessClean;
+        UISignals.Instance.OnTimerInfoChanged += ChangeTimer;
     }
 
     private void UnSubscribeEvents()
@@ -37,6 +40,7 @@ public class UIController : MonoBehaviour
         UISignals.Instance.OnDephtInfoChanged -= ChangeDepthInfo;
         UISignals.Instance.OnBoundaryInfoPanelOpen -= ChangeBoundaryPanel;
         UISignals.Instance.OnDirtClean -= ChangeSuccessClean;
+        UISignals.Instance.OnTimerInfoChanged -= ChangeTimer;
     }
 
     private void ChangeBoundaryPanel(bool arg0)
@@ -60,8 +64,15 @@ public class UIController : MonoBehaviour
         ChangeScore(10);
     }
 
-    private void ChangeScore(int value)
+    private void ChangeScore(uint value)
     {
         scoreText.text = Extensions.StringBuilderAppend((_score+=value).ToString());
+    }
+
+    private void ChangeTimer(uint time)
+    {
+        int minute = (int)(time / _sixty); 
+        float leftSecond = time % _sixty;
+        timerText.text = Extensions.StringBuilderAppend(minute + " : " + leftSecond);
     }
 }

@@ -16,13 +16,11 @@ public static class Extensions
     /// <returns></returns>
     public static float Remap(this float value, float min, float max, float newMin, float newMax)
     {
-        if (Mathf.Approximately(max, min))
-        {
-            return value;
-        }
+        if (Mathf.Approximately(max, min)) return value;
 
         return newMin + (value - min) * (newMax - newMin) / (max - min);
     }
+
 
     /// <summary>
     /// Remap a value to 0-1 range
@@ -35,6 +33,8 @@ public static class Extensions
     {
         return value.Remap(min, max, 0f, 1f);
     }
+
+
 
     /// <summary>
     /// Convert RenderTexture to Texture2D
@@ -53,6 +53,8 @@ public static class Extensions
         RenderTexture.active = old_rt;
         return tex;
     }
+
+
 
     /// <summary>
     /// Take a "screenshot" of a camera's Render Texture.
@@ -79,20 +81,21 @@ public static class Extensions
         return image;
     }
 
+
+
     /// <summary>
     /// Set the parent of the GameObject without caching it. Also destroys it if you give destroy time a value
     /// </summary>
     /// <param name="Parent"></param>
     /// <returns></returns>
-    public static GameObject ParentSetAndDestroy(this GameObject _obj, Transform _parent, float _destroyTime = 0f)
+    public static GameObject ParentSetAndDestroy(this GameObject obj, Transform parent, float destroyTime = 0f)
     {
-        _obj.transform.SetParent(_parent);
-        if (_destroyTime > 0)
-        {
-            MonoBehaviour.Destroy(_obj, _destroyTime);
-        }
-        return _obj;
+        obj.transform.SetParent(parent);
+        if (destroyTime > 0) MonoBehaviour.Destroy(obj, destroyTime);
+        return obj;
     }
+
+
 
     /// <summary>
     /// Get the center point of the Transforms in the given list
@@ -100,10 +103,7 @@ public static class Extensions
     /// <returns></returns>
     public static Vector3 GetCenterPoint(this List<Transform> targets)
     {
-        if (targets.Count == 1)
-        {
-            return targets[0].position;
-        }
+        if (targets.Count == 1) return targets[0].position;
 
         var bounds = new Bounds(targets[0].position, Vector3.zero);
         for (int i = 0; i < targets.Count; i++)
@@ -112,8 +112,9 @@ public static class Extensions
         }
 
         return bounds.center;
-
     }
+
+
 
     /// <summary>
     /// Get a random integer except the given one
@@ -129,25 +130,31 @@ public static class Extensions
         return random;
     }
 
-    /// <summary>
-    /// Return height of an object based on its collider
-    /// </summary>
-    /// <param name="_obj"></param>
-    /// <returns></returns>
-    public static float GetColliderHeight(this Transform _obj)
-    {
-        return _obj.GetComponent<Collider>().bounds.extents.y * 2;
-    }
+
 
     /// <summary>
     /// Return height of an object based on its collider
     /// </summary>
-    /// <param name="_obj"></param>
+    /// <param name="obj"></param>
     /// <returns></returns>
-    public static float GetColliderWidth(this Transform _obj)
+    public static float GetColliderHeight(this Transform obj)
     {
-        return _obj.GetComponent<Collider>().bounds.extents.x * 2;
+        return obj.GetComponent<Collider>().bounds.extents.y * 2;
     }
+
+
+
+    /// <summary>
+    /// Return height of an object based on its collider
+    /// </summary>
+    /// <param name="obj"></param>
+    /// <returns></returns>
+    public static float GetColliderWidth(this Transform obj)
+    {
+        return obj.GetComponent<Collider>().bounds.extents.x * 2;
+    }
+
+
 
     /// <summary>
     /// Parses string to Int *fast*
@@ -165,71 +172,78 @@ public static class Extensions
         return result;
     }
 
+
+
     /// <summary>
     /// Returns mouse positions that hits the specified _layerMask
     /// </summary>
-    /// <param name="_layerMask"></param>
+    /// <param name="layerMask"></param>
     /// <returns></returns>
-    public static Vector3 GetMouseWorldPosition(LayerMask _layerMask)
+    public static Vector3 GetMouseWorldPosition(LayerMask layerMask)
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out RaycastHit raycastHit, 999f, _layerMask))
-        {
-            return raycastHit.point;
-        }
-        else
-        {
-            return Vector3.zero;
-        }
 
+        if (Physics.Raycast(ray, out RaycastHit raycastHit, 999f, layerMask)) return raycastHit.point;
+        else return Vector3.zero;
     }
+
+
+
     /// <summary>
     /// Fastly change X of a Vector3
     /// </summary>
-    /// <param name="_curVector"></param>
-    /// <param name="_newX"></param>
+    /// <param name="curVector"></param>
+    /// <param name="newX"></param>
     /// <returns></returns>
-    public static Vector3 ChangeX(this Vector3 _curVector, float _newX)
+    public static Vector3 ChangeX(this Vector3 curVector, float newX)
     {
-        _curVector.x = _newX;
-        return _curVector;
+        curVector.x = newX;
+        return curVector;
     }
+
+
 
     /// <summary>
     /// Fastly change Y of a Vector3
     /// </summary>
-    /// <param name="_curVector"></param>
-    /// <param name="_newY"></param>
+    /// <param name="curVector"></param>
+    /// <param name="newY"></param>
     /// <returns></returns>
-    public static Vector3 ChangeY(this Vector3 _curVector, float _newY)
+    public static Vector3 ChangeY(this Vector3 curVector, float newY)
     {
-        _curVector.y = _newY;
-        return _curVector;
+        curVector.y = newY;
+        return curVector;
     }
+
+
 
     /// <summary>
     /// Fastly change Z of a Vector3
     /// </summary>
-    /// <param name="_curVector"></param>
-    /// <param name="_newZ"></param>
+    /// <param name="curVector"></param>
+    /// <param name="newZ"></param>
     /// <returns></returns>
-    public static Vector3 ChangeZ(this Vector3 _curVector, float _newZ)
+    public static Vector3 ChangeZ(this Vector3 curVector, float newZ)
     {
-        _curVector.z = _newZ;
-        return _curVector;
+        curVector.z = newZ;
+        return curVector;
     }
+
+
 
     /// <summary>
     /// Fastly change Z of a Vector3
     /// </summary>
-    /// <param name="_curVector"></param>
-    /// <param name="_newZ"></param>
+    /// <param name="curVector"></param>
+    /// <param name="newZ"></param>
     /// <returns></returns>
-    public static Vector2 ChangeY2D(this Vector2 _curVector, float _newZ)
+    public static Vector2 ChangeY2D(this Vector2 curVector, float newZ)
     {
-        _curVector.y = _newZ;
-        return _curVector;
+        curVector.y = newZ;
+        return curVector;
     }
+
+
 
     /// <summary>
     /// Returns a negative number if B is left of A, positive if right of A, or 0 if they are perfectly aligned
@@ -242,27 +256,148 @@ public static class Extensions
         return -A.x * B.y + A.y * B.x;
     }
 
-    public static void ChangeMaxParticle(this ParticleSystem _particle, int _newMaxParticle)
+
+
+    /// <summary>
+    /// Changes the maximum number of particles in the particle system.
+    /// </summary>
+    /// <param name="particle">The ParticleSystem to modify.</param>
+    /// <param name="newMaxParticle">The new maximum number of particles.</param>
+    public static void ChangeMaxParticle(this ParticleSystem particle, int newMaxParticle)
     {
-        var main = _particle.main;  
-        main.maxParticles = _newMaxParticle;
+        var main = particle.main;
+        main.maxParticles = newMaxParticle;
     }
 
-    public static string StringBuilderAppend(string _text)
+
+
+    /// <summary>
+    /// Deletes all child objects of the given transform.
+    /// </summary>
+    /// <param name="transform">The Transform whose children will be deleted.</param>
+    public static void DeleteChildren(this Transform transform)
+    {
+        foreach (Transform child in transform) GameObject.Destroy(child.gameObject);
+    }
+
+
+
+    /// <summary>
+    /// Appends the given text to a StringBuilder and returns the result.
+    /// </summary>
+    /// <param name="text">The text to append.</param>
+    /// <returns>A string with the appended text.</returns>
+    public static string StringBuilderAppend(this string text)
     {
         StringBuilder _builder = new();
-        _builder.Append(_text);
+        _builder.Append(text);
         return _builder.ToString();
     }
-    public static float WriteNDigit<T>(T _number, int _digit) where T : struct, IConvertible
+
+
+
+    /// <summary>
+    /// Retrieves or creates a WaitForSeconds object for the given time.
+    /// </summary>
+    /// <param name="time">The time to wait.</param>
+    /// <returns>A WaitForSeconds object for the given time.</returns>
+    private static readonly Dictionary<float, WaitForSeconds> WaitDictionary = new();
+    public static WaitForSeconds GetWaitForSeconds(this float time)
     {
-        if (!typeof(T).IsNumericType()) // T'nin bir sayýsal tür olup olmadýðýný kontrol etmek için geniþletme metodu kullanýlýr.
+        if (WaitDictionary.TryGetValue(time, out var wait)) return wait;
+
+        WaitDictionary[time] = new WaitForSeconds(time);
+        return WaitDictionary[time];
+    }
+
+
+
+    /// <summary>
+    /// Gets the world position of a UI canvas element.
+    /// </summary>
+    /// <param name="element">The RectTransform of the canvas element.</param>
+    /// <returns>The world position of the canvas element.</returns>
+    public static Vector2 GetWorldPositionOfCanvasElement(this RectTransform element)
+    {
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(element, element.position, Camera.main, out var result);
+        return result;
+    }
+
+
+
+    /// <summary>
+    /// Adds or retrieves a component of the specified type from the GameObject.
+    /// </summary>
+    /// <typeparam name="T">The type of component to add or retrieve.</typeparam>
+    /// <param name="source">The GameObject to add or retrieve the component from.</param>
+    /// <returns>The component of type T attached to the GameObject.</returns>
+    public static T AddOrGetComponent<T>(this GameObject source) where T : Component
+    {
+        var obj = source.GetComponent<T>() ?? source.AddComponent<T>();
+        return obj;
+    }
+
+
+
+    /// <summary>
+    /// Assigns and plays the given AudioClip on the AudioSource.
+    /// </summary>
+    /// <param name="source">The AudioSource to play the AudioClip.</param>
+    /// <param name="clip">The AudioClip to play.</param>
+    public static void PlayClip(this AudioSource source, AudioClip clip)
+    {
+        source.clip = clip;
+        source.Play();
+    }
+
+
+
+    /// <summary>
+    /// Creates a copy of the given Mesh.
+    /// </summary>
+    /// <param name="mesh">The Mesh to copy.</param>
+    /// <returns>A copy of the Mesh.</returns>
+    public static Mesh CopyMesh(this Mesh mesh)
+    {
+        Mesh newMesh = new()
+        {
+            vertices = mesh.vertices,
+            triangles = mesh.triangles,
+            uv = mesh.uv,
+            normals = mesh.normals,
+            colors = mesh.colors,
+            tangents = mesh.tangents
+        };
+        return newMesh;
+    }
+
+
+
+
+    /// <summary>
+    /// Writes a numeric value with the specified number of digits after the decimal point.
+    /// </summary>
+    /// <typeparam name="T">The numeric type of the value.</typeparam>
+    /// <param name="number">The numeric value to format.</param>
+    /// <param name="digit">The number of digits after the decimal point.</param>
+    /// <returns>The numeric value formatted with the specified number of digits.</returns>
+    public static float WriteNDigit<T>(T number, int digit) where T : struct, IConvertible
+    {
+        if (!typeof(T).IsNumericType())
             throw new ArgumentException("Type T must be numeric.");
 
-        float number = Convert.ToSingle(_number); // _number'ý float'a dönüþtür
+        float convertedNumber = Convert.ToSingle(number);
 
-        return float.Parse(number.ToString("N" + _digit));
+        return float.Parse(convertedNumber.ToString("N" + digit));
     }
+
+
+
+    /// <summary>
+    /// Checks if the given type is a numeric type.
+    /// </summary>
+    /// <param name="type">The Type to check.</param>
+    /// <returns>True if the type is numeric; otherwise, false.</returns>
     public static bool IsNumericType(this Type type)
     {
         switch (Type.GetTypeCode(type))
@@ -283,4 +418,38 @@ public static class Extensions
                 return false;
         }
     }
+
+
+    /// <summary>
+    /// Set the position and local rotation of the transform
+    /// </summary>
+    /// <param name="_transform"></param>
+    /// <param name="_position"></param>
+    /// <param name="_localEulerAngles"></param>
+    public static void SetPositionAndLocalEulerAngles(this Transform _transform, Vector3 _position, Vector3 _localEulerAngles)
+    {
+        _transform.position = _position;
+        _transform.localEulerAngles = _localEulerAngles;
+    }
+
+
+    // Get a random index that is not in the usedIndexes list
+    /// </summary>
+    /// <param name="usedIndexes"></param>
+    /// <param name="range"></param>
+    /// <returns></returns>
+    public static int GetUniqueRandomIndex(List<int> usedIndexes, int range)
+    {
+        if (usedIndexes.Count >= range) return -1;
+
+        int randomIndex = UnityEngine.Random.Range(0, range);
+        while (usedIndexes.Contains(randomIndex))
+        {
+            randomIndex = UnityEngine.Random.Range(0, range);
+        }
+        usedIndexes.Add(randomIndex);
+        return randomIndex;
+    }
+
+
 }
