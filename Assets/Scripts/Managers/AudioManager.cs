@@ -10,7 +10,7 @@ public class AudioManager : MonoSingleton<AudioManager>
     private void OnEnable()
     {
         //PlayOrStop("Sound1",true);
-        PlayOrStop(_currentSoundIndex, true);
+        PlayOrStop(_currentSoundIndex);
     }
 
     void Awake()
@@ -35,21 +35,20 @@ public class AudioManager : MonoSingleton<AudioManager>
         else s.Source.Stop();
     }
 
-    public void PlayOrStop(ushort index, bool mustStarted)
+    public void PlayOrStop(ushort index)
     {
-        if (mustStarted) Sounds[index].Source.Play();
-        else Sounds[index].Source.Stop();
+        Sounds[index].Source.Play();
 
-        StartCoroutine(PlayNextSound(Sounds[index].Clip.length));
+        StartCoroutine(WaitAndPlayNextSound(Sounds[index].Clip.length));
     }
 
-    public IEnumerator PlayNextSound(float waitTime)
+    public IEnumerator WaitAndPlayNextSound(float waitTime)
     {
         yield return Extensions.GetWaitForSeconds(waitTime);
 
         _currentSoundIndex = (ushort)((_currentSoundIndex + 1) % Sounds.Length);
 
-        PlayOrStop(_currentSoundIndex, true);
+        PlayOrStop(_currentSoundIndex);
 
     }
 }
