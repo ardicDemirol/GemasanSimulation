@@ -6,8 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 99c9720ab356a0642a771bea13969a05
+    path: Assets/Art/StylizedWater2/_Demo/Underwater/UnderwaterDemo.unity
+    guid: 350df15eca5119b4c953c533280b3bbb
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 39db9d77cae78b640a1f5445e5f1e237,
       type: 2}

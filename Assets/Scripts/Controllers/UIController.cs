@@ -9,11 +9,12 @@ public class UIController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI cleanedDirtText;
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private GameObject boundaryWarningPanel;
+    [SerializeField] private GameObject pausePanel;
 
 
-    private short _cleanedDirtAmount;
+    private ushort _cleanedDirtAmount;
     private uint _score;
-    private readonly short _sixty = 60;
+    private readonly ushort _sixty = 60;
 
     private void OnEnable()
     {
@@ -32,6 +33,7 @@ public class UIController : MonoBehaviour
         UISignals.Instance.OnBoundaryInfoPanelOpen += ChangeBoundaryPanel;
         UISignals.Instance.OnDirtClean += ChangeSuccessClean;
         UISignals.Instance.OnTimerInfoChanged += ChangeTimer;
+        UISignals.Instance.OnPausePanelToggle += TogglePausePanel;
     }
 
     private void UnSubscribeEvents()
@@ -41,6 +43,7 @@ public class UIController : MonoBehaviour
         UISignals.Instance.OnBoundaryInfoPanelOpen -= ChangeBoundaryPanel;
         UISignals.Instance.OnDirtClean -= ChangeSuccessClean;
         UISignals.Instance.OnTimerInfoChanged -= ChangeTimer;
+        UISignals.Instance.OnPausePanelToggle -= TogglePausePanel;
     }
 
     private void ChangeBoundaryPanel(bool arg0)
@@ -55,7 +58,7 @@ public class UIController : MonoBehaviour
 
     private void ChangeDepthInfo(float depth)
     {
-        depthInfoText.text = Extensions.StringBuilderAppend(Mathf.Abs(depth).ToString());
+        depthInfoText.text = Extensions.StringBuilderAppend(Mathf.Abs(depth).ToString() + "m");
     }
 
     private void ChangeSuccessClean()
@@ -73,6 +76,11 @@ public class UIController : MonoBehaviour
     {
         int minute = (int)(time / _sixty); 
         float leftSecond = time % _sixty;
-        timerText.text = Extensions.StringBuilderAppend(minute + " : " + leftSecond);
+        timerText.text = Extensions.StringBuilderAppend(minute + ":" + leftSecond);
+    }
+
+    private void TogglePausePanel()
+    {
+        pausePanel.SetActive(!pausePanel.activeSelf);
     }
 }

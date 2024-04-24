@@ -86,7 +86,7 @@ public class ManuelController : MonoSingleton<ManuelController>
     {
         VehicleIdleController();
 
-        if (Inputs.Instance.LeftShiftPressed && (Inputs.Instance.Move.y == _positive)) _moveSpeed = boostSpeed;
+        if (Inputs.Instance.LeftShiftButtonPressed && (Inputs.Instance.Move.y == _positive)) _moveSpeed = boostSpeed;
         else _moveSpeed = normalSpeed;
 
         Vector3 vel = (transform.forward * Inputs.Instance.Move.y + transform.right * Inputs.Instance.Move.x + transform.up * Inputs.Instance.Height.y).normalized * _moveSpeed;

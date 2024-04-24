@@ -7,11 +7,11 @@ public class Inputs : MonoSingleton<Inputs>
     public Vector2 Move;
     public Vector2 Height;
     public Vector2 Look;
-    public short MouseScroll;
+    public byte MouseScroll;
     public bool LeftMouseButtonPressed;
     public bool MiddleMouseButtonPressed;
-    public bool LeftShiftPressed;
-
+    public bool LeftShiftButtonPressed;
+    public bool EscapeButtonPressed;
 
     [Header("Mouse Cursor Settings")]
     [SerializeField] bool cursorLocked = true;
@@ -60,8 +60,10 @@ public class Inputs : MonoSingleton<Inputs>
         _vehicleControls.Vehicle.MouseButton.performed += OnMouseButtonPerformed;
         _vehicleControls.Vehicle.MouseButton.canceled += OnMouseButtonCancelled;
 
-        _vehicleControls.Vehicle.SpeedUp.performed += ctx => LeftShiftPressed = true;
-        _vehicleControls.Vehicle.SpeedUp.canceled += ctx => LeftShiftPressed = false;
+        _vehicleControls.Vehicle.SpeedUp.performed += ctx => LeftShiftButtonPressed = true;
+        _vehicleControls.Vehicle.SpeedUp.canceled += ctx => LeftShiftButtonPressed = false;
+
+        _vehicleControls.Vehicle.Pause.performed += EscapeButtonInput;
 
     }
 
@@ -87,8 +89,11 @@ public class Inputs : MonoSingleton<Inputs>
         _vehicleControls.Vehicle.MouseButton.performed -= OnMouseButtonPerformed;
         _vehicleControls.Vehicle.MouseButton.canceled -= OnMouseButtonCancelled;
 
-        _vehicleControls.Vehicle.SpeedUp.performed -= ctx => LeftShiftPressed = true;
-        _vehicleControls.Vehicle.SpeedUp.canceled -= ctx => LeftShiftPressed = false;
+        _vehicleControls.Vehicle.SpeedUp.performed -= ctx => LeftShiftButtonPressed = true;
+        _vehicleControls.Vehicle.SpeedUp.canceled -= ctx => LeftShiftButtonPressed = false;
+
+
+        _vehicleControls.Vehicle.Pause.performed -= EscapeButtonInput;
     }
 
 
@@ -151,6 +156,14 @@ public class Inputs : MonoSingleton<Inputs>
         MouseLeftButtonInput(false);
     }
 
+    private void EscapeButtonInput(InputAction.CallbackContext context)
+    {
+        EscapeButtonPressed = !EscapeButtonPressed;
+        cursorLocked = !cursorLocked;
+        SetCursorState(cursorLocked);
+        UISignals.Instance.OnPausePanelToggle?.Invoke();
+    }
+
 
     private void MoveInput(Vector2 newMoveDirection)
     {
@@ -169,7 +182,7 @@ public class Inputs : MonoSingleton<Inputs>
 
     private void MouseScrollInput(Vector2 newScrollDirection)
     {
-        MouseScroll = (short)newScrollDirection.y;
+        MouseScroll = (byte)newScrollDirection.y;
     }
     private void MouseLeftButtonInput(bool newLeftMouseButton)
     {

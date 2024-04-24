@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Sound5
   m_EditorClassIdentifier: 
   Name: Sound5
-  Clip: {fileID: 8300000, guid: 244119d5745805245895110f539d27fd, type: 3}
-  Volume: 1
+  Clip: {fileID: 8300000, guid: f8e0ee9ee9f81ac4b808de2853bfab4f, type: 3}
+  Volume: 0.002
   Pitch: 3
   SpatialBlend: 0
   Loop: 0

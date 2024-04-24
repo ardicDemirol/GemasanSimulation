@@ -4,13 +4,13 @@ public class ArmController : MonoBehaviour
 {
     [Header("Arm Controller Settings")]
     [SerializeField] private GameObject armParent;
-    [SerializeField] private short minArmParentAngle = 15;
-    [SerializeField] private short maxArmParentAngle = 105;
+    [SerializeField] private byte minArmParentAngle = 15;
+    [SerializeField] private byte maxArmParentAngle = 105;
 
     [Header("Head Controller Settings")]
     [SerializeField] private GameObject headParent;
-    [SerializeField] private short minHeadParentAngle = 15;
-    [SerializeField] private short maxHeadParentAngle = 105;
+    [SerializeField] private byte minHeadParentAngle = 15;
+    [SerializeField] private byte maxHeadParentAngle = 105;
 
     [Header("VFX Settings")]
     [SerializeField] private ParticleSystem waterParticle;
@@ -24,9 +24,9 @@ public class ArmController : MonoBehaviour
     private short _minParentAngle;
     private short _maxParentAngle;
 
-    private static readonly short _mouseScrollDivisior = 36;
-    private static readonly short _maxParticleAmount = 75;
-    private static readonly short _minParticleAmount = 0;
+    private static readonly byte _mouseScrollDivisior = 36;
+    private static readonly byte _maxParticleAmount = 75;
+    private static readonly byte _minParticleAmount = 0;
 
     void Update()
     {

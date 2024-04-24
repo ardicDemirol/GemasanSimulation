@@ -1,5 +1,5 @@
 {
-    "name": "VehicleControls",
+    "name": "VehicleController",
     "maps": [
         {
             "name": "Vehicle",
@@ -63,6 +63,15 @@
                     "name": "SpeedUp",
                     "type": "Button",
                     "id": "2eaadf68-afb7-4d50-ac5c-7d77144be1fe",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Pause",
+                    "type": "Button",
+                    "id": "7f35e8c0-f855-47ee-9eb7-fef60aa29767",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -254,6 +263,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "SpeedUp",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "537b27fd-e432-4e10-bc07-7389362ed84b",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
