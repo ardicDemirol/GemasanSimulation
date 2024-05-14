@@ -7,7 +7,7 @@ public class Inputs : MonoSingleton<Inputs>
     public Vector2 Move;
     public Vector2 Height;
     public Vector2 Look;
-    public byte MouseScroll;
+    public short MouseScroll;
     public bool LeftMouseButtonPressed;
     public bool MiddleMouseButtonPressed;
     public bool LeftShiftButtonPressed;
@@ -18,27 +18,33 @@ public class Inputs : MonoSingleton<Inputs>
     [SerializeField] bool cursorInputForLook = true;
 
     private VehicleController _vehicleControls;
+    private PlayerInput _playerInput;
+    private InputDevice _inputDevice;
 
+    [SerializeField] private int _lookInputMultiple;
+    [SerializeField] private int _mouseScrollMultiple;
 
     private void Awake()
     {
+        _playerInput = GetComponent<PlayerInput>();
         _vehicleControls = new VehicleController();
+        SetInputDevice();
     }
-
 
     private void OnEnable()
     {
         SubscribeEvents();
     }
+
+
     private void OnDisable()
     {
-        UnSubscribeEvents();
+        UnsubscribeEvents();
     }
     private void OnApplicationFocus(bool hasFocus)
     {
         SetCursorState(cursorLocked);
     }
-
 
     private void SubscribeEvents()
     {
@@ -57,19 +63,21 @@ public class Inputs : MonoSingleton<Inputs>
         _vehicleControls.Vehicle.MouseScroll.performed += OnMouseScrollPerformed;
         _vehicleControls.Vehicle.MouseScroll.canceled += OnMouseScrollCancelled;
 
-        _vehicleControls.Vehicle.MouseButton.performed += OnMouseButtonPerformed;
-        _vehicleControls.Vehicle.MouseButton.canceled += OnMouseButtonCancelled;
+        _vehicleControls.Vehicle.MouseLeftButton.performed += OnMouseLeftButtonPerformed;
+        _vehicleControls.Vehicle.MouseLeftButton.canceled += OnMouseLeftButtonCancelled;
+
+        _vehicleControls.Vehicle.MouseMiddleButton.performed += OnMouseMiddleButtonPerformed;
+        _vehicleControls.Vehicle.MouseMiddleButton.canceled += OnMouseMiddleButtonCancelled;
 
         _vehicleControls.Vehicle.SpeedUp.performed += ctx => LeftShiftButtonPressed = true;
         _vehicleControls.Vehicle.SpeedUp.canceled += ctx => LeftShiftButtonPressed = false;
 
         _vehicleControls.Vehicle.Pause.performed += EscapeButtonInput;
-
     }
 
 
 
-    private void UnSubscribeEvents()
+    private void UnsubscribeEvents()
     {
         _vehicleControls.Disable();
         _vehicleControls.Vehicle.Movement.performed -= OnMovementPerformed;
@@ -86,8 +94,12 @@ public class Inputs : MonoSingleton<Inputs>
         _vehicleControls.Vehicle.MouseScroll.performed -= OnMouseScrollPerformed;
         _vehicleControls.Vehicle.MouseScroll.canceled -= OnMouseScrollCancelled;
 
-        _vehicleControls.Vehicle.MouseButton.performed -= OnMouseButtonPerformed;
-        _vehicleControls.Vehicle.MouseButton.canceled -= OnMouseButtonCancelled;
+        _vehicleControls.Vehicle.MouseLeftButton.performed -= OnMouseLeftButtonPerformed;
+        _vehicleControls.Vehicle.MouseLeftButton.canceled -= OnMouseLeftButtonCancelled;
+
+
+        _vehicleControls.Vehicle.MouseMiddleButton.performed -= OnMouseMiddleButtonPerformed;
+        _vehicleControls.Vehicle.MouseMiddleButton.canceled -= OnMouseMiddleButtonCancelled;
 
         _vehicleControls.Vehicle.SpeedUp.performed -= ctx => LeftShiftButtonPressed = true;
         _vehicleControls.Vehicle.SpeedUp.canceled -= ctx => LeftShiftButtonPressed = false;
@@ -122,7 +134,7 @@ public class Inputs : MonoSingleton<Inputs>
     {
         if (cursorInputForLook)
         {
-            LookInput(context.ReadValue<Vector2>());
+            LookInput(context.ReadValue<Vector2>() * _lookInputMultiple);
         }
     }
 
@@ -134,28 +146,41 @@ public class Inputs : MonoSingleton<Inputs>
     private void OnCameraPerformed(InputAction.CallbackContext context)
     {
         var keyName = context.control.name;
+        if(keyName == "up") keyName = "1";
+        else if(keyName == "right") keyName = "2";
+        else if(keyName == "left") keyName = "3";
+        else if(keyName == "down") keyName = "4";
         CameraSignals.Instance.OnCameraChanged?.Invoke(StringToInt(keyName));
     }
 
     private void OnMouseScrollPerformed(InputAction.CallbackContext context)
     {
-        MouseScrollInput(context.ReadValue<Vector2>());
+        MouseScrollInput(context.ReadValue<Vector2>() * _mouseScrollMultiple);
     }
     private void OnMouseScrollCancelled(InputAction.CallbackContext context)
     {
         MouseScrollInput(Vector2.zero);
     }
-    private void OnMouseButtonPerformed(InputAction.CallbackContext context)
+
+    private void OnMouseLeftButtonPerformed(InputAction.CallbackContext context)
     {
-        MouseLeftButtonInput(Mouse.current.leftButton.isPressed);
-        MouseMiddleButtonInput(Mouse.current.middleButton.isPressed);
+        MouseLeftButtonInput(context.ReadValueAsButton());
     }
 
-    private void OnMouseButtonCancelled(InputAction.CallbackContext context)
+    private void OnMouseLeftButtonCancelled(InputAction.CallbackContext context)
     {
         MouseLeftButtonInput(false);
     }
 
+    private void OnMouseMiddleButtonPerformed(InputAction.CallbackContext context)
+    {
+        MouseMiddleButtonInput(context.ReadValueAsButton());
+    }
+
+    private void OnMouseMiddleButtonCancelled(InputAction.CallbackContext context)
+    {
+        MouseLeftButtonInput(false);
+    }
     private void EscapeButtonInput(InputAction.CallbackContext context)
     {
         EscapeButtonPressed = !EscapeButtonPressed;
@@ -165,36 +190,32 @@ public class Inputs : MonoSingleton<Inputs>
     }
 
 
+    //////////////////////////////////////////////////////////////////////////
     private void MoveInput(Vector2 newMoveDirection)
     {
         Move = newMoveDirection;
     }
-
     private void HeightInput(Vector2 newHeightDirection)
     {
         Height = newHeightDirection;
     }
-
     private void LookInput(Vector2 newLookDirection)
     {
         Look = newLookDirection;
     }
-
     private void MouseScrollInput(Vector2 newScrollDirection)
     {
-        MouseScroll = (byte)newScrollDirection.y;
+        MouseScroll = (short)newScrollDirection.y;
     }
     private void MouseLeftButtonInput(bool newLeftMouseButton)
     {
         LeftMouseButtonPressed = newLeftMouseButton;
     }
-
     private void MouseMiddleButtonInput(bool newMiddleMouseButton)
     {
         if (newMiddleMouseButton)
         {
             MiddleMouseButtonPressed = !MiddleMouseButtonPressed;
-            //MiddleMouseButtonPressed = newMiddleMouseButton;
             CameraSignals.Instance.OnPressMiddleClick?.Invoke(MiddleMouseButtonPressed);
         }
     }
@@ -206,15 +227,42 @@ public class Inputs : MonoSingleton<Inputs>
 
     private int StringToInt(string input)
     {
-        int result;
-        if (int.TryParse(input, out result))
+        if (int.TryParse(input, out int result)) return result;
+        else return int.MinValue;
+    }
+
+
+    private void SetInputDevice()
+    {
+        _inputDevice = FindPreferredDevice();
+
+        if (_inputDevice is Keyboard)
         {
-            return result;
+            Debug.Log("Keyboard is being used.");
+            _playerInput.SwitchCurrentControlScheme("Keyboard");
+            _lookInputMultiple = 1;
+            _mouseScrollMultiple = 1;
         }
-        else
+        else if (_inputDevice is Gamepad)
         {
-            return int.MinValue;
+            Debug.Log("Gamepad is being used.");
+            _playerInput.SwitchCurrentControlScheme("Gamepad");
+            _lookInputMultiple = 20;
+            _mouseScrollMultiple = 60;
         }
     }
+    private InputDevice FindPreferredDevice()
+    {
+        InputDevice[] devices = InputSystem.devices.ToArray();
+        foreach (InputDevice device in devices)
+        {
+            if (device is Gamepad)
+            {
+                return device;
+            }
+        }
+        return InputSystem.devices[0];
+    }
+
 }
 

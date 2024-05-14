@@ -73,9 +73,18 @@ public partial class @VehicleController: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""MouseButton"",
+                    ""name"": ""MouseLeftButton"",
                     ""type"": ""Button"",
                     ""id"": ""d02f92c2-4165-4b39-ac6c-0446cb7fff30"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MouseMiddleButton"",
+                    ""type"": ""Button"",
+                    ""id"": ""9183beab-f511-469a-b615-ab8dafa00f08"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -118,7 +127,7 @@ public partial class @VehicleController: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -129,7 +138,7 @@ public partial class @VehicleController: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -140,7 +149,7 @@ public partial class @VehicleController: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -151,7 +160,62 @@ public partial class @VehicleController: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""WASD_Gamepad"",
+                    ""id"": ""2aee5406-de5e-4031-b701-d6394d8f6fd4"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
                     ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""8686705a-3d0d-4582-abd7-270c26c178e7"",
+                    ""path"": ""<Gamepad>/leftStick/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""b4380360-df7a-4866-b861-2aa355becea3"",
+                    ""path"": ""<Gamepad>/leftStick/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""072df9a4-bf1c-42b6-8102-08c706ccd99b"",
+                    ""path"": ""<Gamepad>/leftStick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""f1bfd053-34a9-447a-b761-ff73c1b35b2e"",
+                    ""path"": ""<Gamepad>/leftStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -162,7 +226,18 @@ public partial class @VehicleController: IInputActionCollection2, IDisposable
                     ""path"": ""<Pointer>/delta"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f4964951-68e5-4509-bb28-df7c55d67dbb"",
+                    ""path"": ""<Gamepad>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -184,7 +259,7 @@ public partial class @VehicleController: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/q"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Height"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -195,7 +270,40 @@ public partial class @VehicleController: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/e"",
                     ""interactions"": """",
                     ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Height"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""QE_Gamepad"",
+                    ""id"": ""cb55679e-630d-4202-9ac8-5d9c331f2bcd"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
                     ""groups"": """",
+                    ""action"": ""Height"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""80ded729-dce1-41fa-bf77-4f145da9f5e0"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Height"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""af000c36-241a-458b-a2cc-eba46c9f24c9"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""Height"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -206,7 +314,7 @@ public partial class @VehicleController: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/1"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Camera"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -217,7 +325,7 @@ public partial class @VehicleController: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/2"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Camera"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -228,7 +336,7 @@ public partial class @VehicleController: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/3"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Camera"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -239,7 +347,51 @@ public partial class @VehicleController: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/4"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Camera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a446e9fc-61df-4ec0-81f9-54661ce825ff"",
+                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Camera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8bb3125a-1a1a-4e4b-a78a-1d8416db8c4f"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Camera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""440acf38-6566-4db1-9b08-b7acea79fc0a"",
+                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Camera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5187c8d5-ea99-47c2-b923-d190b05bad19"",
+                    ""path"": ""<Gamepad>/dpad/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""Camera"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -250,7 +402,18 @@ public partial class @VehicleController: IInputActionCollection2, IDisposable
                     ""path"": ""<Mouse>/scroll"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""MouseScroll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e93e0cb6-7375-46a2-a72f-2ec5c540c904"",
+                    ""path"": ""<Gamepad>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""MouseScroll"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -261,19 +424,19 @@ public partial class @VehicleController: IInputActionCollection2, IDisposable
                     ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""MouseButton"",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""MouseLeftButton"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""d6375cf2-84a4-49fd-8381-38f007b121e0"",
-                    ""path"": ""<Mouse>/middleButton"",
+                    ""id"": ""cbb0badc-4601-4bb0-89c9-ffaa1d498539"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""MouseButton"",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""MouseLeftButton"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -290,177 +453,56 @@ public partial class @VehicleController: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""b99b94c7-1b50-4c12-b2f2-8adc4c34f21e"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""SpeedUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""537b27fd-e432-4e10-bc07-7389362ed84b"",
                     ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
-                }
-            ]
-        },
-        {
-            ""name"": ""Vehicle1"",
-            ""id"": ""d78fa31d-c74e-40c5-83cb-12724746f7a9"",
-            ""actions"": [
-                {
-                    ""name"": ""Movement"",
-                    ""type"": ""Value"",
-                    ""id"": ""f1ffd66a-17c7-4989-9e84-51cdef5dc8a0"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
-                    ""name"": ""Height"",
-                    ""type"": ""Value"",
-                    ""id"": ""13e245cc-1f61-4283-962f-348e010c7321"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
-                    ""name"": ""Look"",
-                    ""type"": ""Value"",
-                    ""id"": ""d6be9170-e492-4764-8fc5-24f037738c68"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
-                    ""name"": ""Camera"",
-                    ""type"": ""Button"",
-                    ""id"": ""113cffc3-7143-4893-8341-cdb370a36e1e"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                }
-            ],
-            ""bindings"": [
-                {
-                    ""name"": ""WASD"",
-                    ""id"": ""ec9f7389-b6dc-43e1-be2c-762dba80b181"",
-                    ""path"": ""2DVector"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Movement"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""up"",
-                    ""id"": ""3d6b321b-5e62-4612-94ef-cb1676bd8f20"",
-                    ""path"": ""<Keyboard>/w"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""down"",
-                    ""id"": ""fbf6c85e-6d59-4318-99d7-5fd4b727c987"",
-                    ""path"": ""<Keyboard>/s"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""left"",
-                    ""id"": ""311930d8-6bca-4613-a711-d3080808573e"",
-                    ""path"": ""<Keyboard>/a"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""2d70039b-e88c-4730-a2c6-5861412d06d1"",
-                    ""path"": ""<Keyboard>/d"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
                 },
                 {
                     ""name"": """",
-                    ""id"": ""260dc88a-d3c5-4dab-815d-126efefd11f7"",
-                    ""path"": ""<Pointer>/delta"",
+                    ""id"": ""3f2391b0-9cf8-4a53-b323-dc23accbbce5"",
+                    ""path"": ""<Gamepad>/start"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Look"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""QE"",
-                    ""id"": ""5684851d-6130-4430-a275-a91823c30b04"",
-                    ""path"": ""2DVector"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Height"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""down"",
-                    ""id"": ""ff64ef2a-df71-4fdf-abd6-69f1962bf3a8"",
-                    ""path"": ""<Keyboard>/q"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Height"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""up"",
-                    ""id"": ""ad6e2d1d-f3b7-44f4-acb3-c3ec1617f47a"",
-                    ""path"": ""<Keyboard>/e"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Height"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""b7ab5c66-b513-4dc3-8e11-624f11a4d8d1"",
-                    ""path"": ""<Keyboard>/1"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Camera"",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""b2ba23c0-75f7-4f0b-bc65-e824660e9821"",
-                    ""path"": ""<Keyboard>/1"",
+                    ""id"": ""df9db698-1bd4-4d61-ae1b-c79106ca8ed8"",
+                    ""path"": ""<Mouse>/middleButton"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Camera"",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""MouseMiddleButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e48a88c1-852e-4003-a645-887b37cf75ee"",
+                    ""path"": ""<Gamepad>/rightStickPress"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""MouseMiddleButton"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -469,8 +511,13 @@ public partial class @VehicleController: IInputActionCollection2, IDisposable
     ],
     ""controlSchemes"": [
         {
-            ""name"": ""New control scheme"",
-            ""bindingGroup"": ""New control scheme"",
+            ""name"": ""Keyboard"",
+            ""bindingGroup"": ""Keyboard"",
+            ""devices"": []
+        },
+        {
+            ""name"": ""Gamepad"",
+            ""bindingGroup"": ""Gamepad"",
             ""devices"": []
         }
     ]
@@ -482,15 +529,10 @@ public partial class @VehicleController: IInputActionCollection2, IDisposable
         m_Vehicle_Look = m_Vehicle.FindAction("Look", throwIfNotFound: true);
         m_Vehicle_Camera = m_Vehicle.FindAction("Camera", throwIfNotFound: true);
         m_Vehicle_MouseScroll = m_Vehicle.FindAction("MouseScroll", throwIfNotFound: true);
-        m_Vehicle_MouseButton = m_Vehicle.FindAction("MouseButton", throwIfNotFound: true);
+        m_Vehicle_MouseLeftButton = m_Vehicle.FindAction("MouseLeftButton", throwIfNotFound: true);
+        m_Vehicle_MouseMiddleButton = m_Vehicle.FindAction("MouseMiddleButton", throwIfNotFound: true);
         m_Vehicle_SpeedUp = m_Vehicle.FindAction("SpeedUp", throwIfNotFound: true);
         m_Vehicle_Pause = m_Vehicle.FindAction("Pause", throwIfNotFound: true);
-        // Vehicle1
-        m_Vehicle1 = asset.FindActionMap("Vehicle1", throwIfNotFound: true);
-        m_Vehicle1_Movement = m_Vehicle1.FindAction("Movement", throwIfNotFound: true);
-        m_Vehicle1_Height = m_Vehicle1.FindAction("Height", throwIfNotFound: true);
-        m_Vehicle1_Look = m_Vehicle1.FindAction("Look", throwIfNotFound: true);
-        m_Vehicle1_Camera = m_Vehicle1.FindAction("Camera", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -557,7 +599,8 @@ public partial class @VehicleController: IInputActionCollection2, IDisposable
     private readonly InputAction m_Vehicle_Look;
     private readonly InputAction m_Vehicle_Camera;
     private readonly InputAction m_Vehicle_MouseScroll;
-    private readonly InputAction m_Vehicle_MouseButton;
+    private readonly InputAction m_Vehicle_MouseLeftButton;
+    private readonly InputAction m_Vehicle_MouseMiddleButton;
     private readonly InputAction m_Vehicle_SpeedUp;
     private readonly InputAction m_Vehicle_Pause;
     public struct VehicleActions
@@ -569,7 +612,8 @@ public partial class @VehicleController: IInputActionCollection2, IDisposable
         public InputAction @Look => m_Wrapper.m_Vehicle_Look;
         public InputAction @Camera => m_Wrapper.m_Vehicle_Camera;
         public InputAction @MouseScroll => m_Wrapper.m_Vehicle_MouseScroll;
-        public InputAction @MouseButton => m_Wrapper.m_Vehicle_MouseButton;
+        public InputAction @MouseLeftButton => m_Wrapper.m_Vehicle_MouseLeftButton;
+        public InputAction @MouseMiddleButton => m_Wrapper.m_Vehicle_MouseMiddleButton;
         public InputAction @SpeedUp => m_Wrapper.m_Vehicle_SpeedUp;
         public InputAction @Pause => m_Wrapper.m_Vehicle_Pause;
         public InputActionMap Get() { return m_Wrapper.m_Vehicle; }
@@ -596,9 +640,12 @@ public partial class @VehicleController: IInputActionCollection2, IDisposable
             @MouseScroll.started += instance.OnMouseScroll;
             @MouseScroll.performed += instance.OnMouseScroll;
             @MouseScroll.canceled += instance.OnMouseScroll;
-            @MouseButton.started += instance.OnMouseButton;
-            @MouseButton.performed += instance.OnMouseButton;
-            @MouseButton.canceled += instance.OnMouseButton;
+            @MouseLeftButton.started += instance.OnMouseLeftButton;
+            @MouseLeftButton.performed += instance.OnMouseLeftButton;
+            @MouseLeftButton.canceled += instance.OnMouseLeftButton;
+            @MouseMiddleButton.started += instance.OnMouseMiddleButton;
+            @MouseMiddleButton.performed += instance.OnMouseMiddleButton;
+            @MouseMiddleButton.canceled += instance.OnMouseMiddleButton;
             @SpeedUp.started += instance.OnSpeedUp;
             @SpeedUp.performed += instance.OnSpeedUp;
             @SpeedUp.canceled += instance.OnSpeedUp;
@@ -624,9 +671,12 @@ public partial class @VehicleController: IInputActionCollection2, IDisposable
             @MouseScroll.started -= instance.OnMouseScroll;
             @MouseScroll.performed -= instance.OnMouseScroll;
             @MouseScroll.canceled -= instance.OnMouseScroll;
-            @MouseButton.started -= instance.OnMouseButton;
-            @MouseButton.performed -= instance.OnMouseButton;
-            @MouseButton.canceled -= instance.OnMouseButton;
+            @MouseLeftButton.started -= instance.OnMouseLeftButton;
+            @MouseLeftButton.performed -= instance.OnMouseLeftButton;
+            @MouseLeftButton.canceled -= instance.OnMouseLeftButton;
+            @MouseMiddleButton.started -= instance.OnMouseMiddleButton;
+            @MouseMiddleButton.performed -= instance.OnMouseMiddleButton;
+            @MouseMiddleButton.canceled -= instance.OnMouseMiddleButton;
             @SpeedUp.started -= instance.OnSpeedUp;
             @SpeedUp.performed -= instance.OnSpeedUp;
             @SpeedUp.canceled -= instance.OnSpeedUp;
@@ -650,83 +700,22 @@ public partial class @VehicleController: IInputActionCollection2, IDisposable
         }
     }
     public VehicleActions @Vehicle => new VehicleActions(this);
-
-    // Vehicle1
-    private readonly InputActionMap m_Vehicle1;
-    private List<IVehicle1Actions> m_Vehicle1ActionsCallbackInterfaces = new List<IVehicle1Actions>();
-    private readonly InputAction m_Vehicle1_Movement;
-    private readonly InputAction m_Vehicle1_Height;
-    private readonly InputAction m_Vehicle1_Look;
-    private readonly InputAction m_Vehicle1_Camera;
-    public struct Vehicle1Actions
-    {
-        private @VehicleController m_Wrapper;
-        public Vehicle1Actions(@VehicleController wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Movement => m_Wrapper.m_Vehicle1_Movement;
-        public InputAction @Height => m_Wrapper.m_Vehicle1_Height;
-        public InputAction @Look => m_Wrapper.m_Vehicle1_Look;
-        public InputAction @Camera => m_Wrapper.m_Vehicle1_Camera;
-        public InputActionMap Get() { return m_Wrapper.m_Vehicle1; }
-        public void Enable() { Get().Enable(); }
-        public void Disable() { Get().Disable(); }
-        public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(Vehicle1Actions set) { return set.Get(); }
-        public void AddCallbacks(IVehicle1Actions instance)
-        {
-            if (instance == null || m_Wrapper.m_Vehicle1ActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_Vehicle1ActionsCallbackInterfaces.Add(instance);
-            @Movement.started += instance.OnMovement;
-            @Movement.performed += instance.OnMovement;
-            @Movement.canceled += instance.OnMovement;
-            @Height.started += instance.OnHeight;
-            @Height.performed += instance.OnHeight;
-            @Height.canceled += instance.OnHeight;
-            @Look.started += instance.OnLook;
-            @Look.performed += instance.OnLook;
-            @Look.canceled += instance.OnLook;
-            @Camera.started += instance.OnCamera;
-            @Camera.performed += instance.OnCamera;
-            @Camera.canceled += instance.OnCamera;
-        }
-
-        private void UnregisterCallbacks(IVehicle1Actions instance)
-        {
-            @Movement.started -= instance.OnMovement;
-            @Movement.performed -= instance.OnMovement;
-            @Movement.canceled -= instance.OnMovement;
-            @Height.started -= instance.OnHeight;
-            @Height.performed -= instance.OnHeight;
-            @Height.canceled -= instance.OnHeight;
-            @Look.started -= instance.OnLook;
-            @Look.performed -= instance.OnLook;
-            @Look.canceled -= instance.OnLook;
-            @Camera.started -= instance.OnCamera;
-            @Camera.performed -= instance.OnCamera;
-            @Camera.canceled -= instance.OnCamera;
-        }
-
-        public void RemoveCallbacks(IVehicle1Actions instance)
-        {
-            if (m_Wrapper.m_Vehicle1ActionsCallbackInterfaces.Remove(instance))
-                UnregisterCallbacks(instance);
-        }
-
-        public void SetCallbacks(IVehicle1Actions instance)
-        {
-            foreach (var item in m_Wrapper.m_Vehicle1ActionsCallbackInterfaces)
-                UnregisterCallbacks(item);
-            m_Wrapper.m_Vehicle1ActionsCallbackInterfaces.Clear();
-            AddCallbacks(instance);
-        }
-    }
-    public Vehicle1Actions @Vehicle1 => new Vehicle1Actions(this);
-    private int m_NewcontrolschemeSchemeIndex = -1;
-    public InputControlScheme NewcontrolschemeScheme
+    private int m_KeyboardSchemeIndex = -1;
+    public InputControlScheme KeyboardScheme
     {
         get
         {
-            if (m_NewcontrolschemeSchemeIndex == -1) m_NewcontrolschemeSchemeIndex = asset.FindControlSchemeIndex("New control scheme");
-            return asset.controlSchemes[m_NewcontrolschemeSchemeIndex];
+            if (m_KeyboardSchemeIndex == -1) m_KeyboardSchemeIndex = asset.FindControlSchemeIndex("Keyboard");
+            return asset.controlSchemes[m_KeyboardSchemeIndex];
+        }
+    }
+    private int m_GamepadSchemeIndex = -1;
+    public InputControlScheme GamepadScheme
+    {
+        get
+        {
+            if (m_GamepadSchemeIndex == -1) m_GamepadSchemeIndex = asset.FindControlSchemeIndex("Gamepad");
+            return asset.controlSchemes[m_GamepadSchemeIndex];
         }
     }
     public interface IVehicleActions
@@ -736,15 +725,9 @@ public partial class @VehicleController: IInputActionCollection2, IDisposable
         void OnLook(InputAction.CallbackContext context);
         void OnCamera(InputAction.CallbackContext context);
         void OnMouseScroll(InputAction.CallbackContext context);
-        void OnMouseButton(InputAction.CallbackContext context);
+        void OnMouseLeftButton(InputAction.CallbackContext context);
+        void OnMouseMiddleButton(InputAction.CallbackContext context);
         void OnSpeedUp(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
-    }
-    public interface IVehicle1Actions
-    {
-        void OnMovement(InputAction.CallbackContext context);
-        void OnHeight(InputAction.CallbackContext context);
-        void OnLook(InputAction.CallbackContext context);
-        void OnCamera(InputAction.CallbackContext context);
     }
 }

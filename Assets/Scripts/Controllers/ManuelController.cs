@@ -1,6 +1,5 @@
 using DG.Tweening;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class ManuelController : MonoSingleton<ManuelController>
 {
@@ -10,8 +9,8 @@ public class ManuelController : MonoSingleton<ManuelController>
     //[SerializeField] private float rotSpeed = 5;
     [SerializeField] private float yawSpeed = 0.1f;
     [SerializeField] private float yawAccelSpeed = 2;
-    [SerializeField] private float idleDuration = 5f;
-    [SerializeField] private float idleMoveDistance = 0.7f;
+    [SerializeField] private float idleDuration = 4f;
+    [SerializeField] private float idleMoveDistance = 0.4f;
     [SerializeField] private float propellerRotateValue = 5000;
 
     [SerializeField] private ParticleSystem[] balloonEffects;
@@ -41,6 +40,7 @@ public class ManuelController : MonoSingleton<ManuelController>
     private static readonly short _positive = 1;
     private static readonly short _negative = -1;
     private static readonly short _zero = 0;
+    private static readonly float _errorRate = 0.1f;
     private static readonly short _maxParticle = 200;
     private static readonly short _midParticle = 100;
 
@@ -139,7 +139,7 @@ public class ManuelController : MonoSingleton<ManuelController>
             SetVFXCount(_maxParticle, RotatePropellerType.Height);
         }
 
-        if (Inputs.Instance.Look.x > _zero)
+        if (Inputs.Instance.Look.x > _zero + _errorRate)
         {
             RotateFrontAndBackPropellers();
             if (Inputs.Instance.Move == Vector2.zero && _canRotateVehicle)
@@ -148,7 +148,7 @@ public class ManuelController : MonoSingleton<ManuelController>
                 SetVFXCount(_maxParticle, RotatePropellerType.Move);
             }
         }
-        else if (Inputs.Instance.Look.x < _zero)
+        else if (Inputs.Instance.Look.x < _zero - _errorRate)
         {
             RotateFrontAndBackPropellers();
             if (Inputs.Instance.Move == Vector2.zero && _canRotateVehicle)
@@ -157,7 +157,7 @@ public class ManuelController : MonoSingleton<ManuelController>
                 SetVFXCount(_maxParticle, RotatePropellerType.Move);
             }
         }
-
+       
         if (Inputs.Instance.Move == Vector2.zero && Inputs.Instance.Look.x == _zero)
         {
             SetVFXCount(_zero, RotatePropellerType.Move);

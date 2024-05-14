@@ -14,7 +14,7 @@ public class UIController : MonoBehaviour
 
     private ushort _cleanedDirtAmount;
     private uint _score;
-    private readonly ushort _sixty = 60;
+    private static readonly byte _sixty = 60;
 
     private void OnEnable()
     {
@@ -76,11 +76,13 @@ public class UIController : MonoBehaviour
     {
         int minute = (int)(time / _sixty); 
         float leftSecond = time % _sixty;
-        timerText.text = Extensions.StringBuilderAppend(minute + ":" + leftSecond);
+        string formattedTime = minute.ToString("D2") + ":" + leftSecond.ToString("00");
+        timerText.text = Extensions.StringBuilderAppend(formattedTime);
     }
 
     private void TogglePausePanel()
     {
         pausePanel.SetActive(!pausePanel.activeSelf);
+        Time.timeScale = pausePanel.activeInHierarchy ? 0 : 1;
     }
 }
