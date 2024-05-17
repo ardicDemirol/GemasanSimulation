@@ -21,7 +21,6 @@ internal class PoolController : MonoBehaviour
     {
         _pool = ObjectPoolExtension.CreateObjectPool(pooledObjectPrefabs, pooledObjectAmount, pooledObjectTransforms);
 
-
         for (int i = 0; i < 1; i++) ActivePoolObject();
 
     }
@@ -47,7 +46,7 @@ internal class PoolController : MonoBehaviour
         EventSignals.Instance.OnDirtClean += StartDeactivateCoroutine;
     }
 
-    
+
     private void UnsubscribeEvents()
     {
         EventSignals.Instance.OnDirtClean -= StartDeactivateCoroutine;
@@ -62,13 +61,13 @@ internal class PoolController : MonoBehaviour
     private void ActivePoolObject()
     {
         GameObject obj = _pool.GetObjectFromPool();
-        
+
         obj.TryGetComponent(out SpriteRenderer _spriteRenderer);
-        if(_spriteRenderer != null) _spriteRenderer.material.DOFade(1, 0.1f);
+        if (_spriteRenderer != null) _spriteRenderer.material.DOFade(1, 0.1f);
 
 
         obj.TryGetComponent(out MeshRenderer _meshRenderer);
-        if(_meshRenderer != null) _meshRenderer.material.DOFade(1, 0.1f);
+        if (_meshRenderer != null) _meshRenderer.material.DOFade(1, 0.1f);
 
         obj.SetActive(true);
     }

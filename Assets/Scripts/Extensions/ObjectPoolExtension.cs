@@ -29,6 +29,7 @@ public static class ObjectPoolExtension
             int randomParentIndex = Extensions.GetUniqueRandomIndex(indexes, parents.Count);
             GameObject newObj = GameObject.Instantiate(prefabs[randomPrefabIndex], parents[randomParentIndex]);
             newObj.transform.localPosition = Vector3.zero;
+            newObj.transform.localEulerAngles = Vector3.zero;
             newObj.SetActive(false);
             if (parents != null) newObj.transform.SetParent(parents[randomParentIndex]);
             return newObj;

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class WaterVFXController : MonoBehaviour
 {
-    [SerializeField] private float minCollisionTime = 5f;
+    [SerializeField] private float minCollisionTime = 3f;
     private float _currentCollisionTime;
     private const string DIRT_VFX_TAG = "Dirt";
 

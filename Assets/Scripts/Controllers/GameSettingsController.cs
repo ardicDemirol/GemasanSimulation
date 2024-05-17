@@ -31,7 +31,7 @@ public class GameSettingsController : MonoBehaviour
     {
         musicVolumeSlider.value = PlayerPrefs.GetFloat(MUSIC_VOLUME, 1);
         sfxVolumeSlider.value = PlayerPrefs.GetFloat(SFX_VOLUME, 1);
-        MaxFPSCotrol((byte)PlayerPrefs.GetInt(FPS_INDEX,4));
+        MaxFPSCotrol((byte)PlayerPrefs.GetInt(FPS_INDEX, 4));
     }
 
     public void MusicVolumeControl()
@@ -65,6 +65,11 @@ public class GameSettingsController : MonoBehaviour
         Application.targetFrameRate = _fps;
         PlayerPrefs.SetInt(FPS_INDEX, index);
 
+    }
+
+    public void Exit()
+    {
+        Application.Quit();
     }
 
 
