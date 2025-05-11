@@ -1,5 +1,3 @@
-Sure! Here's an English README file for the project based on the repository information:
-
 ---
 
 # GemasanSimulation
@@ -54,5 +52,3 @@ Contributions are welcome! Feel free to fork the repository, make changes, and s
 This project is licensed under the terms of the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ---
-
-You can customize this README further based on the specific details or goals of your project. Let me know if you'd like to add more sections or modify it!
