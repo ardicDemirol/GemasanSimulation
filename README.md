@@ -1,5 +1,3 @@
----
-
 # GemasanSimulation
 
 **GemasanSimulation** is a project developed primarily in C#, with additional components in HLSL and ShaderLab. This repository aims to provide a simulation environment, potentially featuring graphical and computational elements.
@@ -51,4 +49,3 @@ Contributions are welcome! Feel free to fork the repository, make changes, and s
 ## License
 This project is licensed under the terms of the MIT License. See the [LICENSE](LICENSE) file for details.
 
----
